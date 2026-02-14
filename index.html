@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Everything Vault | Pro Dashboard</title>
+    <title>VaultOS | Sound-Active Edition</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
             --primary: #6366f1; 
-            --accent: #8b5cf6;
             --bg: #f8fafc; 
             --sidebar: #ffffff;
-            --card: #ffffff;
             --text-main: #1e293b;
             --text-sub: #64748b;
         }
@@ -21,85 +19,64 @@
             margin: 0; display: flex; height: 100vh; overflow: hidden;
         }
 
-        /* --- SIDEBAR NAVIGATION --- */
+        /* SIDEBAR */
         .sidebar {
-            width: 280px; background: var(--sidebar);
+            width: 260px; background: var(--sidebar);
             border-right: 1px solid #e2e8f0;
             display: flex; flex-direction: column; padding: 30px 20px;
-            z-index: 1001;
         }
         
-        .logo-area { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; padding-left: 10px; }
-        .logo-icon { width: 35px; height: 35px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
-        .logo-text { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; color: #000; }
+        .logo-area { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+        .logo-icon { width: 32px; height: 32px; background: var(--primary); border-radius: 8px; }
+        .logo-text { font-weight: 800; font-size: 1.2rem; }
 
-        .nav-group-label { font-size: 0.7rem; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px 10px; }
-        
         .nav-item {
             padding: 12px 15px; margin: 4px 0; border-radius: 10px;
-            cursor: pointer; transition: 0.2s; font-weight: 600;
-            display: flex; align-items: center; gap: 12px; color: var(--text-sub);
+            cursor: pointer; transition: 0.2s; font-weight: 600; color: var(--text-sub);
+            display: flex; align-items: center; gap: 10px;
         }
         .nav-item:hover { background: #f1f5f9; color: var(--primary); }
         .nav-item.active { background: #eef2ff; color: var(--primary); }
 
-        /* --- MAIN CONTENT --- */
-        .main { flex: 1; overflow-y: auto; scroll-behavior: smooth; padding: 0; background: #fdfdff; }
+        /* MAIN CONTENT */
+        .main { flex: 1; overflow-y: auto; scroll-behavior: smooth; background: #fdfdff; }
         
         .top-nav { 
-            position: sticky; top: 0; background: rgba(253, 253, 255, 0.8); 
-            backdrop-filter: blur(12px); padding: 20px 40px; z-index: 100;
-            border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center;
+            position: sticky; top: 0; background: rgba(253, 253, 255, 0.9); 
+            backdrop-filter: blur(10px); padding: 20px 40px; z-index: 100;
+            border-bottom: 1px solid #e2e8f0;
         }
 
         .search-bar { 
-            width: 100%; max-width: 600px; padding: 12px 20px; 
-            background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; 
-            font-size: 0.95rem; outline: none; transition: 0.3s;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-        .search-bar:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
-
-        .content-padding { padding: 20px 40px 60px; }
-
-        .section-title { 
-            font-size: 1.5rem; font-weight: 800; margin: 40px 0 20px; 
-            color: #0f172a; display: flex; align-items: center; gap: 10px;
+            width: 100%; max-width: 500px; padding: 12px 20px; 
+            border: 1px solid #e2e8f0; border-radius: 12px; font-size: 0.95rem; outline: none;
         }
 
-        /* --- MODERN CARDS --- */
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+        .content-padding { padding: 20px 40px 100px; }
+
+        .section-title { font-size: 1.4rem; font-weight: 800; margin: 40px 0 20px; color: #0f172a; }
+
+        /* CARDS */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
         
         .card { 
-            background: var(--card); border: 1px solid #e2e8f0; 
-            padding: 24px; border-radius: 20px; transition: 0.3s ease;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+            background: #fff; border: 1px solid #e2e8f0; 
+            padding: 24px; border-radius: 20px; transition: 0.3s;
             display: flex; flex-direction: column;
         }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05); border-color: var(--primary); }
-
-        .tag { font-size: 0.7rem; font-weight: 700; color: var(--primary); background: #eef2ff; padding: 4px 10px; border-radius: 6px; width: fit-content; margin-bottom: 15px; }
-        
-        h3 { margin: 0 0 10px 0; font-size: 1.1rem; font-weight: 700; color: #1e293b; }
+        .card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
 
         .p-text { 
-            font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;
+            font-size: 0.88rem; color: var(--text-sub); line-height: 1.6;
             background: #f8fafc; padding: 15px; border-radius: 12px; 
-            margin-bottom: 20px; flex-grow: 1; border: 1px solid #f1f5f9;
+            margin-bottom: 20px; flex-grow: 1;
         }
 
         .copy-btn { 
             background: #0f172a; color: white; border: none; padding: 12px; 
-            border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.9rem;
-            transition: 0.2s;
+            border-radius: 10px; cursor: pointer; font-weight: 600; transition: 0.2s;
         }
-        .copy-btn:hover { background: var(--primary); transform: scale(1.02); }
-        .copy-btn:active { transform: scale(0.98); }
-
-        /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .copy-btn:hover { background: var(--primary); }
     </style>
 </head>
 <body>
@@ -109,46 +86,61 @@
         <div class="logo-icon"></div>
         <span class="logo-text">VaultOS</span>
     </div>
-
-    <div class="nav-group-label">Library</div>
-    <div class="nav-item active" onclick="jumpTo('all')">🏠 All Prompts</div>
+    <div class="nav-item active" onclick="jumpTo('all')">🏠 All Access</div>
     <div class="nav-item" onclick="jumpTo('coding')">💻 Coding Lab</div>
-    <div class="nav-item" onclick="jumpTo('homework')">📚 Homework Help</div>
+    <div class="nav-item" onclick="jumpTo('homework')">📚 Homework</div>
     <div class="nav-item" onclick="jumpTo('images')">🎨 Image Studio</div>
-    
-    <div class="nav-group-label">Account</div>
-    <div class="nav-item">⭐ Favorites</div>
-    <div class="nav-item">⚙️ Settings</div>
 </div>
 
 <div class="main" id="scrollContainer">
     <div class="top-nav">
-        <input type="text" id="search" class="search-bar" placeholder="Search 500+ intelligent prompts..." onkeyup="filter()">
+        <input type="text" id="search" class="search-bar" placeholder="Search prompts..." onkeyup="filter()">
     </div>
 
-    <div class="content-padding">
-        <div id="content-render"></div>
-    </div>
+    <div class="content-padding" id="content-render"></div>
 </div>
 
 <script>
+    // --- PROFESSIONAL SOUND ENGINE ---
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx;
+
+    function playSuccessSound() {
+        if (!audioCtx) audioCtx = new AudioContext();
+        
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        // Sound: A quick, crisp digital "ping"
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(400, audioCtx.currentTime + 0.1);
+
+        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + 0.1);
+    }
+
+    // --- DATA ---
     const sections = [
-        { id: 'coding', name: 'Coding Lab', tag: 'Developer', icon: '💻' },
-        { id: 'homework', name: 'Homework Help', tag: 'Academic', icon: '📚' },
-        { id: 'images', name: 'Image Studio', tag: 'Creative', icon: '🎨' }
+        { id: 'coding', name: 'Coding Lab', tag: 'Dev' },
+        { id: 'homework', name: 'Homework Help', tag: 'Edu' },
+        { id: 'images', name: 'Image Studio', tag: 'Art' }
     ];
 
     const library = [];
-    // Generate 500+ Unique Prompts
     sections.forEach(sec => {
         for(let i=1; i<=170; i++) {
             library.push({
                 cat: sec.id,
-                catTitle: sec.name,
-                tag: sec.tag,
-                icon: sec.icon,
                 title: `${sec.name} Module ${i}`,
-                text: `Professional ${sec.tag} prompt optimized for high-quality output. Focus on accuracy, detail, and specific requirements for scenario #${i}.`
+                tag: sec.tag,
+                text: `Professional ${sec.name} prompt #${i}. Execute high-level output for specific technical and creative requirements.`
             });
         }
     });
@@ -158,14 +150,14 @@
         sections.forEach(sec => {
             const items = library.filter(item => item.cat === sec.id);
             html += `
-                <div id="${sec.id}" class="section-title">${sec.icon} ${sec.name}</div>
+                <div id="${sec.id}" class="section-title">${sec.name}</div>
                 <div class="grid">
                     ${items.map((p, idx) => `
                         <div class="card">
-                            <div class="tag">${p.tag}</div>
+                            <span style="color:var(--primary); font-size:11px; font-weight:700; margin-bottom:8px;">${p.tag}</span>
                             <h3>${p.title}</h3>
                             <div class="p-text" id="t-${sec.id}-${idx}">${p.text}</div>
-                            <button class="copy-btn" onclick="copy('t-${sec.id}-${idx}')">Copy Prompt</button>
+                            <button class="copy-btn" onclick="handleCopy('t-${sec.id}-${idx}')">Copy Prompt</button>
                         </div>
                     `).join('')}
                 </div>
@@ -174,35 +166,39 @@
         document.getElementById('content-render').innerHTML = html;
     }
 
+    function handleCopy(id) {
+        // Play Sound
+        playSuccessSound();
+        
+        // Copy Text
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text);
+        
+        // Visual Feedback
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = "✓ Copied";
+        btn.style.background = "#10b981";
+        
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.background = "#0f172a";
+        }, 1200);
+    }
+
     function jumpTo(id) {
         if(id === 'all') {
             document.getElementById('scrollContainer').scrollTo({top: 0, behavior: 'smooth'});
         } else {
             document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
         }
-        // Update active state
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         event.currentTarget.classList.add('active');
     }
 
-    function copy(id) {
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
-        
-        const btn = event.target;
-        btn.innerText = "✓ Copied";
-        btn.style.background = "#10b981";
-        
-        setTimeout(() => {
-            btn.innerText = "Copy Prompt";
-            btn.style.background = "#0f172a";
-        }, 1500);
-    }
-
     function filter() {
         const q = document.getElementById('search').value.toLowerCase();
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
+        document.querySelectorAll('.card').forEach(card => {
             card.style.display = card.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
         });
     }
