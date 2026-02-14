@@ -3,59 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Vault: 500+ Everything</title>
+    <title>Ultra-Vault PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #00f2ff; --p: #7000ff; --bg: #030303; --card: rgba(25, 25, 25, 0.9); }
+        :root { --neon: #00f2ff; --p: #7000ff; --bg: #030303; --card: rgba(25, 25, 25, 0.85); }
         
         body { 
             font-family: 'Inter', sans-serif; background: var(--bg); color: white; 
-            margin: 0; overflow-x: hidden; padding: 20px;
+            margin: 0; padding: 20px; overflow-x: hidden;
         }
 
-        /* --- STEP 2: PARTICLE BACKGROUND --- */
         #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
 
-        .container { max-width: 1200px; margin: auto; position: relative; z-index: 1; }
-        
-        header { text-align: center; margin-bottom: 40px; }
-        h1 { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--neon); text-shadow: 0 0 15px var(--neon); margin: 0; }
-        .counter { font-size: 0.8rem; color: var(--p); letter-spacing: 2px; font-weight: bold; }
+        .container { max-width: 1200px; margin: auto; position: relative; }
 
-        .search-bar { 
-            width: 100%; padding: 18px 25px; background: rgba(255,255,255,0.05); 
-            border: 1px solid var(--p); border-radius: 12px; color: white; 
-            font-size: 1.1rem; outline: none; transition: 0.3s;
-            box-shadow: inset 0 0 10px rgba(112, 0, 255, 0.2);
+        /* --- LOGO & HEADER --- */
+        .header-section { text-align: center; margin-bottom: 50px; }
+        .logo-box {
+            width: 80px; height: 80px; margin: 0 auto 15px;
+            border: 2px solid var(--neon); border-radius: 20%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 20px var(--neon); overflow: hidden;
+            background: black;
         }
-        .search-bar:focus { border-color: var(--neon); box-shadow: 0 0 20px rgba(0, 242, 255, 0.4); }
+        .logo-box img { width: 100%; height: 100%; object-fit: cover; }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
+        h1 { 
+            font-family: 'Orbitron', sans-serif; font-size: 2.8rem; 
+            margin: 0; color: white; text-transform: uppercase;
+            animation: glitch 3s infinite;
+        }
+
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px var(--p); }
+            50% { text-shadow: -2px -2px var(--neon); }
+            100% { text-shadow: 2px 2px var(--p); }
+        }
+
+        /* --- GLASS SEARCH --- */
+        .search-container {
+            position: sticky; top: 20px; z-index: 1000;
+            backdrop-filter: blur(15px); padding: 10px;
+            border-radius: 20px; border: 1px solid rgba(255,255,255,0.1);
+            margin-bottom: 40px;
+        }
+        .search-bar { 
+            width: 100%; padding: 15px 25px; background: rgba(0,0,0,0.6); 
+            border: none; border-radius: 15px; color: white; font-size: 1.1rem; outline: none;
+            box-sizing: border-box;
+        }
+
+        /* --- GRID & CARDS --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; }
         
-        /* --- STEP 3: 3D HAPTIC HOVER EFFECTS --- */
         .card { 
-            background: var(--card); border: 1px solid rgba(255,255,255,0.1); 
-            padding: 20px; border-radius: 15px; backdrop-filter: blur(15px);
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            perspective: 1000px; cursor: default;
+            background: var(--card); border: 1px solid rgba(255,255,255,0.05); 
+            padding: 25px; border-radius: 20px; position: relative;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         .card:hover { 
-            transform: translateY(-8px) scale(1.02); 
-            border-color: var(--neon); 
-            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.2);
+            transform: scale(1.05); border-color: var(--neon);
+            box-shadow: 0 0 30px rgba(0, 242, 255, 0.2);
         }
 
-        .tag { color: var(--neon); font-size: 9px; font-weight: bold; border: 1px solid var(--neon); padding: 3px 8px; border-radius: 4px; margin-bottom: 12px; display: inline-block; }
+        .tag { color: var(--neon); font-size: 10px; font-weight: bold; border: 1px solid var(--neon); padding: 4px 10px; border-radius: 6px; margin-bottom: 15px; display: inline-block; }
 
-        .p-text { font-size: 0.9rem; color: #aaa; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.6; border-left: 2px solid var(--p); }
+        .p-text { font-size: 0.9rem; color: #ccc; background: rgba(0,0,0,0.4); padding: 15px; border-radius: 12px; margin: 15px 0; border-left: 3px solid var(--p); }
 
-        button { 
-            background: linear-gradient(90deg, var(--p), #4a00e0); border: none; 
-            color: white; padding: 12px; border-radius: 8px; cursor: pointer; 
-            font-weight: bold; width: 100%; transition: 0.2s;
+        .copy-btn { 
+            background: linear-gradient(45deg, var(--p), #4a00e0); border: none; 
+            color: white; padding: 14px; border-radius: 12px; cursor: pointer; 
+            font-weight: bold; width: 100%; transition: 0.3s;
         }
-        button:hover { filter: brightness(1.2); letter-spacing: 1px; }
-        button:active { transform: scale(0.95); }
+        .copy-btn:hover { box-shadow: 0 5px 15px var(--p); }
     </style>
 </head>
 <body>
@@ -63,93 +83,92 @@
 <canvas id="bg-canvas"></canvas>
 
 <div class="container">
-    <header>
-        <h1>ULTRA-VAULT</h1>
-        <div class="counter" id="totalCount">SYNCING DATA...</div>
-    </header>
+    <div class="header-section">
+        <div class="logo-box">
+            <img src="https://cdn-icons-png.flaticon.com/512/2103/2103633.png" alt="Logo">
+        </div>
+        <h1>Ultra-Vault</h1>
+        <p style="color: var(--p); letter-spacing: 3px; font-weight: bold;">500+ ENCRYPTED PROMPTS</p>
+    </div>
     
-    <input type="text" id="search" class="search-bar" placeholder="SEARCH 500+ SYSTEM PROMPTS..." onkeyup="search()">
+    <div class="search-container">
+        <input type="text" id="search" class="search-bar" placeholder="SEARCH SYSTEM..." onkeyup="search()">
+    </div>
+
     <div id="grid" class="grid"></div>
 </div>
 
 <script>
-    // --- PARTICLE BACKGROUND SCRIPT ---
+    // --- PARTICLE ENGINE ---
     const canvas = document.getElementById('bg-canvas');
     const ctx = canvas.getContext('2d');
-    let dots = [];
-    
-    function initCanvas() {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        dots = [];
-        for(let i=0; i<80; i++) {
-            dots.push({
-                x: Math.random()*canvas.width, 
-                y: Math.random()*canvas.height, 
-                vx: (Math.random()-0.5)*0.5,
-                vy: (Math.random()-0.5)*0.5,
-                size: Math.random()*2
-            });
-        }
+    let particles = [];
+    function init() {
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        particles = [];
+        for(let i=0; i<100; i++) particles.push({x: Math.random()*canvas.width, y: Math.random()*canvas.height, size: Math.random()*1.5, speed: Math.random()*0.5});
     }
-    
     function animate() {
         ctx.clearRect(0,0,canvas.width, canvas.height);
-        ctx.fillStyle = "rgba(0, 242, 255, 0.3)";
-        dots.forEach(d => {
-            d.x += d.vx; d.y += d.vy;
-            if(d.x<0 || d.x>canvas.width) d.vx *= -1;
-            if(d.y<0 || d.y>canvas.height) d.vy *= -1;
-            ctx.beginPath(); ctx.arc(d.x, d.y, d.size, 0, Math.PI*2); ctx.fill();
+        ctx.fillStyle = "rgba(0, 242, 255, 0.5)";
+        particles.forEach(p => {
+            p.y -= p.speed; if(p.y < 0) p.y = canvas.height;
+            ctx.beginPath(); ctx.arc(p.x, p.y, p.size, 0, Math.PI*2); ctx.fill();
         });
         requestAnimationFrame(animate);
     }
-    window.addEventListener('resize', initCanvas);
-    initCanvas(); animate();
+    init(); animate();
 
-    // --- PROMPT LIBRARY GENERATOR (500 UNIQUE) ---
+    // --- SOUND ENGINE ---
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playCopySound() {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain); gain.connect(audioCtx.destination);
+        osc.type = 'sine'; osc.frequency.setValueAtTime(880, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+        osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+    }
+
+    // --- GENERATOR ---
     const library = [];
-    const mainTopics = ["Quantum Computing", "Deep Sea Bio", "Ancient Civilizations", "Neural Networks", "Space Architecture", "Gothic Literature", "Molecular Gastronomy", "Forensic Tech", "Sustainability", "Cyber Law"];
-    const subCategories = ["Image Gen", "Homework", "Coding", "Business", "Creative"];
+    const topics = ["Cybersecurity", "Deep Space", "AI Theory", "Neural Flow", "Quantum Logic", "Bio-Ethics", "History Rev", "Finance Bot"];
+    const cats = ["IMAGE", "STUDY", "CODE", "BIZ"];
 
-    for(let i=1; i<=500; i++) {
-        let topic = mainTopics[i % mainTopics.length];
-        let cat = subCategories[i % subCategories.length];
-        let promptText = "";
-
-        if(cat === "Image Gen") {
-            promptText = `A cinematic, hyper-realistic view of ${topic}, involving futuristic lighting, 8k textures, and intricate details --v 6.0`;
-        } else if(cat === "Homework") {
-            promptText = `Explain the advanced principles of ${topic} for a university thesis. Breakdown the history and the modern impact.`;
-        } else if(cat === "Coding") {
-            promptText = `Develop a robust script to simulate ${topic} logic. Optimize for performance and include comprehensive error logs.`;
-        } else {
-            promptText = `Act as an expert consultant. Draft a full strategic report on ${topic} trends for the next decade.`;
-        }
-
-        library.push({ id: i, t: `${topic} Module #${i}`, c: cat.toUpperCase(), p: promptText });
+    for(let i=1; i<=505; i++) {
+        let t = topics[i % topics.length];
+        let c = cats[i % cats.length];
+        library.push({
+            id: i,
+            t: `${t} Unit ${i}`,
+            c: c,
+            p: `[DATA ACCESS ${i}] Professional ${c} prompt for ${t}. Optimize for high-accuracy and creative output.`
+        });
     }
 
     function render(data) {
         document.getElementById('grid').innerHTML = data.map(item => `
             <div class="card">
                 <span class="tag">${item.c}</span>
-                <h3>${item.t}</h3>
+                <h3 style="margin:0">${item.t}</h3>
                 <div class="p-text" id="p${item.id}">${item.p}</div>
-                <button onclick="copyIt(${item.id})">COPY DATA</button>
+                <button class="copy-btn" onclick="handleCopy(${item.id})">COPY SEQUENCE</button>
             </div>
         `).join('');
-        document.getElementById('totalCount').innerText = `${data.length} PROMPTS SECURED`;
+    }
+
+    function handleCopy(id) {
+        playCopySound();
+        navigator.clipboard.writeText(document.getElementById(`p${id}`).innerText);
+        const btn = document.querySelector(`button[onclick="handleCopy(${id})"]`);
+        btn.innerText = "COPIED!";
+        setTimeout(() => btn.innerText = "COPY SEQUENCE", 1000);
     }
 
     function search() {
         const q = document.getElementById('search').value.toLowerCase();
-        render(library.filter(x => x.t.toLowerCase().includes(q) || x.c.toLowerCase().includes(q) || x.p.toLowerCase().includes(q)));
-    }
-
-    function copyIt(id) {
-        navigator.clipboard.writeText(document.getElementById(`p${id}`).innerText);
-        alert("PROMPT COPIED TO SYSTEM");
+        render(library.filter(x => x.t.toLowerCase().includes(q) || x.p.toLowerCase().includes(q)));
     }
 
     render(library);
