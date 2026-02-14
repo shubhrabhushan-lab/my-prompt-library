@@ -3,84 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Vault: 400+ Prompts</title>
+    <title>The Everything Vault (500+)</title>
     <style>
-        :root { --primary: #818cf8; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
+        :root { --p: #10b981; --bg: #020617; --card: #1e293b; --text: #f8fafc; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 1100px; margin: auto; }
-        .search-bar { width: 100%; padding: 15px; background: var(--card); border: 2px solid #334155; border-radius: 12px; color: white; font-size: 18px; margin-bottom: 10px; outline: none; }
-        .filters { margin-bottom: 25px; display: flex; gap: 10px; flex-wrap: wrap; }
-        .filter-btn { background: #334155; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 12px; }
-        .filter-btn:hover { background: var(--primary); }
+        .container { max-width: 1200px; margin: auto; }
+        .nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; position: sticky; top: 10px; z-index: 100; }
+        .nav-btn { background: #334155; border: none; color: white; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+        .nav-btn:hover { background: var(--p); }
+        .search-bar { width: 100%; padding: 15px; background: #0f172a; border: 1px solid #334155; border-radius: 12px; color: white; font-size: 18px; margin-bottom: 20px; outline: none; box-sizing: border-box; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #334155; display: flex; flex-direction: column; }
-        .tag { font-size: 10px; background: #312e81; color: #a5b4fc; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; display: inline-block; width: fit-content; }
-        h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: #fff; }
-        .p-text { font-size: 0.85rem; color: #94a3b8; margin-bottom: 15px; flex-grow: 1; border-left: 2px solid #334155; padding-left: 10px; }
-        button.copy-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        button.copy-btn:hover { opacity: 0.9; }
+        .card { background: var(--card); padding: 20px; border-radius: 16px; border: 1px solid #334155; display: flex; flex-direction: column; height: 100%; }
+        .tag { font-size: 10px; background: #064e3b; color: #6ee7b7; padding: 4px 10px; border-radius: 20px; margin-bottom: 12px; width: fit-content; text-transform: uppercase; }
+        h3 { margin: 0 0 10px 0; font-size: 1.1rem; }
+        .p-text { font-size: 0.85rem; color: #cbd5e1; flex-grow: 1; margin-bottom: 15px; background: #0f172a; padding: 12px; border-radius: 8px; border: 1px dashed #334155; }
+        button.copy { background: var(--p); color: #020617; border: none; width: 100%; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 800; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🚀 Mega Vault: 400 Prompts</h1>
-    <input type="text" id="search" class="search-bar" placeholder="Search images, homework, coding..." onkeyup="search()">
+    <h1>🌍 The Everything Vault</h1>
+    <input type="text" id="search" class="search-bar" placeholder="Search across 500+ categories (e.g., 'Art', 'Math', 'Business')..." onkeyup="search()">
     
-    <div class="filters">
-        <button class="filter-btn" onclick="setSearch('Image Gen')">AI Images</button>
-        <button class="filter-btn" onclick="setSearch('Homework')">Homework</button>
-        <button class="filter-btn" onclick="setSearch('Coding')">Coding</button>
-        <button class="filter-btn" onclick="setSearch('')">Show All</button>
+    <div class="nav">
+        <button class="nav-btn" onclick="setSearch('')">All</button>
+        <button class="nav-btn" onclick="setSearch('Image')">🎨 Images</button>
+        <button class="nav-btn" onclick="setSearch('Study')">📚 Homework</button>
+        <button class="nav-btn" onclick="setSearch('Code')">💻 Coding</button>
+        <button class="nav-btn" onclick="setSearch('Work')">💼 Business</button>
+        <button class="nav-btn" onclick="setSearch('Life')">🧘 Life</button>
     </div>
 
     <div id="grid" class="grid"></div>
 </div>
 
 <script>
-    const fullLibrary = [];
+    const library = [];
 
-    // --- 100 IMAGE GENERATION PROMPTS (Templates) ---
-    const imageStyles = ["Cinematic", "Cyberpunk", "Minimalist", "Oil Painting", "3D Render", "Anime", "Vintage Photo", "Surrealism", "Architectural", "Sketch"];
-    for(let i=1; i<=100; i++) {
-        let style = imageStyles[i % imageStyles.length];
-        fullLibrary.push({
-            t: `${style} Art #${i}`,
-            c: "Image Gen",
-            p: `A highly detailed ${style} masterpiece of [SUBJECT], featuring 8k resolution, dramatic lighting, and intricate textures --ar 16:9 --v 6.0`
-        });
-    }
+    // DATA POOLS
+    const topics = ["Ancient Greece", "Artificial Intelligence", "Baking Science", "Personal Finance", "React.js", "World War 1", "Neuroscience", "Interior Design", "E-commerce", "Sustainable Farming", "Cryptocurrency", "Mental Health", "Yoga", "Deep Sea Exploration", "Space Travel", "Digital Marketing", "Python", "UX Design", "Modern Architecture", "Climate Change"];
+    const roles = ["Expert Professor", "Senior Developer", "Creative Director", "Life Coach", "Financial Advisor", "Professional Chef", "History Tutor", "Marketing Specialist"];
+    const styles = ["Cyberpunk", "Minimalist", "Hyper-realistic", "Studio Ghibli", "Oil Painting", "Vector Art", "Renaissance", "3D Isometric"];
 
-    // --- 100 HOMEWORK/ACADEMIC PROMPTS ---
-    const subjects = ["Mathematics", "History", "Physics", "Literature", "Biology", "Chemistry", "Economics", "Philosophy"];
-    for(let i=1; i<=100; i++) {
-        let sub = subjects[i % subjects.length];
-        fullLibrary.push({
-            t: `${sub} Assistant #${i}`,
-            c: "Homework",
-            p: `Explain the fundamental concept of [TOPIC] in ${sub}. Provide a step-by-step breakdown and 3 practice problems with solutions.`
-        });
-    }
+    // GENERATE 500+ PROMPTS
+    for (let i = 1; i <= 550; i++) {
+        let topic = topics[i % topics.length];
+        let role = roles[i % roles.length];
+        let style = styles[i % styles.length];
+        let category = "";
+        let text = "";
+        let title = "";
 
-    // --- 200 ORIGINAL PROMPTS (General/Coding/Business) ---
-    const generalTypes = ["Coding", "Business", "Marketing", "Travel", "Writing"];
-    for(let i=1; i<=200; i++) {
-        let type = generalTypes[i % generalTypes.length];
-        fullLibrary.push({
-            t: `${type} Task #${i}`,
-            c: type,
-            p: `Act as an expert in ${type}. Help me solve [PROBLEM] by providing a detailed plan, pros and cons, and a final recommendation.`
-        });
+        if (i <= 110) {
+            category = "Image Gen";
+            title = `${style} ${topic}`;
+            text = `A ${style} masterpiece depicting ${topic}. 8k resolution, cinematic lighting, highly detailed textures --ar 16:9 --v 6.0`;
+        } else if (i <= 220) {
+            category = "Study Help";
+            title = `${topic} Tutor`;
+            text = `Act as an ${role}. Explain the most difficult concepts of ${topic} to a student. Use analogies and provide a summary.`;
+        } else if (i <= 330) {
+            category = "Code & Tech";
+            title = `${topic} Pro`;
+            text = `Act as a ${role}. Provide a high-performance solution for [TASK] involving ${topic}. Include code snippets and documentation.`;
+        } else if (i <= 440) {
+            category = "Work & Biz";
+            title = `${topic} Strategy`;
+            text = `Analyze the current market trends for ${topic}. Act as a ${role} and suggest 3 growth strategies for 2026.`;
+        } else {
+            category = "Life & Misc";
+            title = `${topic} Planner`;
+            text = `Act as a ${role}. Create a 7-day plan focused on ${topic} that optimizes for productivity and happiness.`;
+        }
+
+        library.push({ t: title, c: category, p: text });
     }
 
     function render(data) {
-        const grid = document.getElementById('grid');
-        grid.innerHTML = data.map((item, i) => `
+        document.getElementById('grid').innerHTML = data.map((item, i) => `
             <div class="card">
                 <span class="tag">${item.c}</span>
                 <h3>${item.t}</h3>
                 <p class="p-text" id="p${i}">${item.p}</p>
-                <button class="copy-btn" onclick="copy('p${i}')">Copy Prompt</button>
+                <button class="copy" onclick="copy('p${i}')">COPY</button>
             </div>
         `).join('');
     }
@@ -92,19 +98,15 @@
 
     function search() {
         const q = document.getElementById('search').value.toLowerCase();
-        const filtered = fullLibrary.filter(x => 
-            x.t.toLowerCase().includes(q) || x.c.toLowerCase().includes(q) || x.p.toLowerCase().includes(q)
-        );
-        render(filtered);
+        render(library.filter(x => x.t.toLowerCase().includes(q) || x.c.toLowerCase().includes(q) || x.p.toLowerCase().includes(q)));
     }
 
     function copy(id) {
         navigator.clipboard.writeText(document.getElementById(id).innerText);
-        alert("Copied to clipboard!");
+        alert("Copied!");
     }
 
-    render(fullLibrary);
+    render(library);
 </script>
-
 </body>
 </html>
