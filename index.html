@@ -3,55 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mega Prompt Vault (200+)</title>
+    <title>Mega Vault: 400+ Prompts</title>
     <style>
-        :root { --primary: #6366f1; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
+        :root { --primary: #818cf8; --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 1000px; margin: auto; }
-        .search-bar { width: 100%; padding: 15px; background: var(--card); border: 2px solid #334155; border-radius: 12px; color: white; font-size: 18px; margin-bottom: 25px; outline: none; }
-        .search-bar:focus { border-color: var(--primary); }
+        .container { max-width: 1100px; margin: auto; }
+        .search-bar { width: 100%; padding: 15px; background: var(--card); border: 2px solid #334155; border-radius: 12px; color: white; font-size: 18px; margin-bottom: 10px; outline: none; }
+        .filters { margin-bottom: 25px; display: flex; gap: 10px; flex-wrap: wrap; }
+        .filter-btn { background: #334155; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; font-size: 12px; }
+        .filter-btn:hover { background: var(--primary); }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #334155; position: relative; }
-        .tag { font-size: 10px; background: #312e81; color: #a5b4fc; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; display: inline-block; }
-        h3 { margin: 0 0 10px 0; font-size: 1.1rem; }
-        .p-text { font-size: 0.85rem; color: #94a3b8; margin-bottom: 15px; min-height: 50px; }
-        button { background: var(--primary); color: white; border: none; width: 100%; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        button:hover { background: #4f46e5; }
+        .card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #334155; display: flex; flex-direction: column; }
+        .tag { font-size: 10px; background: #312e81; color: #a5b4fc; padding: 3px 8px; border-radius: 4px; margin-bottom: 10px; display: inline-block; width: fit-content; }
+        h3 { margin: 0 0 10px 0; font-size: 1.1rem; color: #fff; }
+        .p-text { font-size: 0.85rem; color: #94a3b8; margin-bottom: 15px; flex-grow: 1; border-left: 2px solid #334155; padding-left: 10px; }
+        button.copy-btn { background: var(--primary); color: white; border: none; width: 100%; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        button.copy-btn:hover { opacity: 0.9; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🚀 Mega Vault: 200 Prompts</h1>
-    <input type="text" id="search" class="search-bar" placeholder="Search 200 prompts by keyword..." onkeyup="search()">
+    <h1>🚀 Mega Vault: 400 Prompts</h1>
+    <input type="text" id="search" class="search-bar" placeholder="Search images, homework, coding..." onkeyup="search()">
+    
+    <div class="filters">
+        <button class="filter-btn" onclick="setSearch('Image Gen')">AI Images</button>
+        <button class="filter-btn" onclick="setSearch('Homework')">Homework</button>
+        <button class="filter-btn" onclick="setSearch('Coding')">Coding</button>
+        <button class="filter-btn" onclick="setSearch('')">Show All</button>
+    </div>
+
     <div id="grid" class="grid"></div>
 </div>
 
 <script>
-    const categories = ["Coding", "Business", "Marketing", "Education", "Creative", "Health", "Legal", "Travel", "Cooking", "Social Media"];
-    
-    // Creating a base list of 20 high-quality unique templates
-    const basePrompts = [
-        { t: "Code Architect", c: "Coding", p: "Design the system architecture for a [APP TYPE] using microservices." },
-        { t: "Marketing Hook", c: "Marketing", p: "Write 10 viral hooks for a TikTok about [PRODUCT]." },
-        { t: "Legal Summarizer", c: "Legal", p: "Explain the liability clauses in this contract like I'm 5: [TEXT]" },
-        { t: "Personal Trainer", c: "Health", p: "Create a 4-week workout plan for a beginner focused on [GOAL]." },
-        { t: "Story Builder", c: "Creative", p: "Write a sci-fi short story opening set in 2080 about [THEME]." },
-        { t: "Interview Prep", c: "Business", p: "Act as an interviewer for a Google PM role. Ask me 5 questions." },
-        { t: "Email Polisher", c: "Business", p: "Make this email sound more assertive but professional: [TEXT]" },
-        { t: "Study Guide", c: "Education", p: "Create a summary and 5 quiz questions for this text: [TEXT]" },
-        { t: "Python Automator", c: "Coding", p: "Write a script to scrape news data from [URL] and save it to CSV." },
-        { t: "Travel Agent", c: "Travel", p: "Plan a hidden-gem itinerary for [CITY] that avoids tourist traps." }
-    ];
-
-    // GENERATING 200 PROMPTS automatically by varying the templates
     const fullLibrary = [];
-    for (let i = 1; i <= 200; i++) {
-        let template = basePrompts[i % basePrompts.length];
+
+    // --- 100 IMAGE GENERATION PROMPTS (Templates) ---
+    const imageStyles = ["Cinematic", "Cyberpunk", "Minimalist", "Oil Painting", "3D Render", "Anime", "Vintage Photo", "Surrealism", "Architectural", "Sketch"];
+    for(let i=1; i<=100; i++) {
+        let style = imageStyles[i % imageStyles.length];
         fullLibrary.push({
-            t: `${template.t} Variation #${i}`,
-            c: template.c,
-            p: template.p.replace("[", " {Specific Case " + i + "} [")
+            t: `${style} Art #${i}`,
+            c: "Image Gen",
+            p: `A highly detailed ${style} masterpiece of [SUBJECT], featuring 8k resolution, dramatic lighting, and intricate textures --ar 16:9 --v 6.0`
+        });
+    }
+
+    // --- 100 HOMEWORK/ACADEMIC PROMPTS ---
+    const subjects = ["Mathematics", "History", "Physics", "Literature", "Biology", "Chemistry", "Economics", "Philosophy"];
+    for(let i=1; i<=100; i++) {
+        let sub = subjects[i % subjects.length];
+        fullLibrary.push({
+            t: `${sub} Assistant #${i}`,
+            c: "Homework",
+            p: `Explain the fundamental concept of [TOPIC] in ${sub}. Provide a step-by-step breakdown and 3 practice problems with solutions.`
+        });
+    }
+
+    // --- 200 ORIGINAL PROMPTS (General/Coding/Business) ---
+    const generalTypes = ["Coding", "Business", "Marketing", "Travel", "Writing"];
+    for(let i=1; i<=200; i++) {
+        let type = generalTypes[i % generalTypes.length];
+        fullLibrary.push({
+            t: `${type} Task #${i}`,
+            c: type,
+            p: `Act as an expert in ${type}. Help me solve [PROBLEM] by providing a detailed plan, pros and cons, and a final recommendation.`
         });
     }
 
@@ -62,19 +80,27 @@
                 <span class="tag">${item.c}</span>
                 <h3>${item.t}</h3>
                 <p class="p-text" id="p${i}">${item.p}</p>
-                <button onclick="copy('p${i}')">Copy</button>
+                <button class="copy-btn" onclick="copy('p${i}')">Copy Prompt</button>
             </div>
         `).join('');
     }
 
+    function setSearch(val) {
+        document.getElementById('search').value = val;
+        search();
+    }
+
     function search() {
         const q = document.getElementById('search').value.toLowerCase();
-        render(fullLibrary.filter(x => x.t.toLowerCase().includes(q) || x.c.toLowerCase().includes(q) || x.p.toLowerCase().includes(q)));
+        const filtered = fullLibrary.filter(x => 
+            x.t.toLowerCase().includes(q) || x.c.toLowerCase().includes(q) || x.p.toLowerCase().includes(q)
+        );
+        render(filtered);
     }
 
     function copy(id) {
         navigator.clipboard.writeText(document.getElementById(id).innerText);
-        alert("Copied!");
+        alert("Copied to clipboard!");
     }
 
     render(fullLibrary);
