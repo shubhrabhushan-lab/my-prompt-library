@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Prompt Vault</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f4f9; padding: 20px; }
+        .container { max-width: 600px; margin: auto; }
+        .card { background: white; padding: 15px; border-radius: 8px; margin-bottom: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h2 { margin-top: 0; color: #333; }
+        button { background: #007bff; color: white; border: none; padding: 10px; border-radius: 4px; cursor: pointer; }
+        button:hover { background: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 My Prompt Library</h1>
+        
+        <div class="card">
+            <h2>Email Summarizer</h2>
+            <p id="prompt1">"Summarize the following email into 3 bullet points, focusing on action items: [PASTE EMAIL HERE]"</p>
+            <button onclick="copyPrompt('prompt1')">Copy Prompt</button>
+        </div>
+
+        </div>
+
+    <script>
+        function copyPrompt(id) {
+            const text = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(text);
+            alert("Prompt copied to clipboard!");
+        }
+    </script>
+</body>
+</html>
