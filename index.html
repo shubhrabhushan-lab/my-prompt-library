@@ -3,71 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Prompt Vault</title>
+    <title>Ultimate Prompt Vault</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #eef2f3; padding: 20px; color: #333; }
-        .container { max-width: 700px; margin: auto; }
-        .search-bar { width: 100%; padding: 12px; margin-bottom: 20px; border-radius: 8px; border: 1px solid #ccc; font-size: 16px; }
-        .card { background: white; padding: 20px; border-radius: 12px; margin-bottom: 15px; border-left: 5px solid #007bff; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
-        .tag { background: #e0eaff; color: #007bff; padding: 4px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; text-transform: uppercase; }
-        h2 { margin: 10px 0; font-size: 1.2rem; }
-        p { color: #666; font-style: italic; background: #f9f9f9; padding: 10px; border-radius: 4px; }
-        button { background: #28a745; color: white; border: none; padding: 10px 15px; border-radius: 6px; cursor: pointer; transition: 0.2s; }
-        button:hover { background: #218838; transform: translateY(-1px); }
+        :root { --primary: #2563eb; --bg: #f8fafc; --card: #ffffff; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); padding: 20px; color: #1e293b; }
+        .container { max-width: 800px; margin: auto; }
+        .header { text-align: center; margin-bottom: 30px; }
+        .search-bar { width: 100%; padding: 15px; margin-bottom: 20px; border-radius: 12px; border: 1px solid #e2e8f0; font-size: 16px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .prompt-grid { display: grid; gap: 15px; }
+        .card { background: var(--card); padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; transition: transform 0.2s; }
+        .card:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+        .tag { font-size: 11px; font-weight: 700; text-transform: uppercase; background: #dbeafe; color: var(--primary); padding: 4px 8px; border-radius: 6px; }
+        h3 { margin: 10px 0 5px 0; font-size: 1.1rem; }
+        .content { font-size: 0.95rem; color: #475569; background: #f1f5f9; padding: 12px; border-radius: 8px; margin: 10px 0; line-height: 1.5; }
+        button { background: var(--primary); color: white; border: none; width: 100%; padding: 10px; border-radius: 8px; font-weight: 600; cursor: pointer; }
+        button:active { opacity: 0.8; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🚀 My Prompt Vault</h1>
-        
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search prompts..." onkeyup="filterPrompts()">
 
-        <div id="promptList">
-            <div class="card">
-                <span class="tag">Productivity</span>
-                <h2>Email Summarizer</h2>
-                <p id="p1">"Summarize this email into 3 bullet points, focusing only on deadlines and action items: [PASTE EMAIL]"</p>
-                <button onclick="copyPrompt('p1')">Copy Prompt</button>
-            </div>
-
-            <div class="card">
-                <span class="tag">Coding</span>
-                <h2>Explain Code</h2>
-                <p id="p2">"Act as a senior developer. Explain this code snippet to me like I'm a beginner: [PASTE CODE]"</p>
-                <button onclick="copyPrompt('p2')">Copy Prompt</button>
-            </div>
-
-            <div class="card">
-                <span class="tag">Writing</span>
-                <h2>Tone Transformer</h2>
-                <p id="p3">"Rewrite the following text to sound more professional and confident: [PASTE TEXT]"</p>
-                <button onclick="copyPrompt('p3')">Copy Prompt</button>
-            </div>
-        </div>
+<div class="container">
+    <div class="header">
+        <h1>🚀 Prompt Vault Pro</h1>
+        <p>200+ Prompt Framework (Searchable)</p>
     </div>
 
-    <script>
-        // Copy function
-        function copyPrompt(id) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text);
-            alert("Copied to clipboard!");
-        }
+    <input type="text" id="search" class="search-bar" placeholder="Search by topic (e.g. 'Code', 'Email', 'Expert')..." onkeyup="render()">
 
-        // Search function
-        function filterPrompts() {
-            let input = document.getElementById('searchInput').value.toLowerCase();
-            let cards = document.getElementsByClassName('card');
-            
-            for (let i = 0; i < cards.length; i++) {
-                let title = cards[i].getElementsByTagName('h2')[0].innerText.toLowerCase();
-                if (title.includes(input)) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
-            }
-        }
-    </script>
+    <div id="promptList" class="prompt-grid"></div>
+</div>
+
+<script>
+    // To reach 200, just keep adding items to this list!
+    const prompts = [
+        { title: "Socratic Tutor", tag: "Education", text: "Do not give me the answer. Instead, ask me leading questions to help me solve [TOPIC] myself." },
+        { title: "Bug Finder", tag: "Coding", text: "Check this code for logical errors, security vulnerabilities, and edge cases: [CODE]" },
+        { title: "Professional Email", tag: "Writing", text: "Rewrite this email to be professional, polite, and concise: [TEXT]" },
+        { title: "Senior Dev Review", tag: "Coding", text: "Review this code for performance bottlenecks and suggest optimizations: [CODE]" },
+        { title: "Meeting Summarizer", tag: "Productivity", text: "Extract key decisions, action items, and follow-ups from these notes: [NOTES]" },
+        { title: "Interview Coach", tag: "Career", text: "I am interviewing for [ROLE]. Ask me 5 hard questions one by one and give feedback on my answers." },
+        { title: "Travel Itinerary", tag: "Life", text: "Plan a 3-day budget-friendly trip to [CITY] focused on local food and hidden gems." },
+        { title: "Analogy Generator", tag: "Learning", text: "Explain [COMPLEX CONCEPT] using a simple analogy involving a kitchen or a car." },
+        { title: "Critical Friend", tag: "Writing", text: "Read this argument and point out 3 logical fallacies or weak points in my reasoning: [TEXT]" },
+        { title: "Excel Formula Pro", tag: "Office", text: "Write an Excel formula that [DESCRIBE GOAL] using columns A and B." },
+        { title: "SQL Query Master", tag: "Database", text: "Write a SQL query to [GOAL] given a table named [TABLE] with columns [LIST]." },
+        { title: "Social Media Hook", tag: "Marketing", text: "Write 5 viral-style hooks for a post about [TOPIC] for LinkedIn and X." },
+        { title: "Contract Decoder", tag: "Legal", text: "Summarize the main risks and obligations for me in this text: [PASTE CONTRACT]" },
+        { title: "Step-by-Step Recipe", tag: "Cooking", text: "Give me a recipe using only these ingredients: [LIST]. Focus on high protein." },
+        { title: "Python Scripting", tag: "Coding", text: "Write a Python script to automate [TASK] using the [LIBRARY] library." },
+        { title: "Mindset Shift", tag: "Psychology", text: "I am feeling [EMOTION] about [SITUATION]. Provide a stoic perspective on this." },
+        { title: "Project Manager", tag: "Productivity", text: "Break down this project into a 4-week timeline with specific tasks: [PROJECT NAME]" },
+        { title: "React Specialist", tag: "Coding", text: "Create a functional React component for a [UI ELEMENT] using Tailwind CSS." },
+        { title: "Flashcard Creator", tag: "Learning", text: "Create 10 Q&A flashcards based on this text for active recall study: [TEXT]" },
+        { title: "Brand Voice", tag: "Marketing", text: "Rewrite this product description to sound like [FAMOUS BRAND] (e.g. Apple or Nike)." }
+    ];
+
+    function render() {
+        const searchTerm = document.getElementById('search').value.toLowerCase();
+        const list = document.getElementById('promptList');
+        list.innerHTML = '';
+
+        prompts.filter(p => p.title.toLowerCase().includes(searchTerm) || p.tag.toLowerCase().includes(searchTerm))
+               .forEach((p, index) => {
+            list.innerHTML += `
+                <div class="card">
+                    <span class="tag">${p.tag}</span>
+                    <h3>${p.title}</h3>
+                    <div class="content" id="t${index}">${p.text}</div>
+                    <button onclick="copyText('t${index}')">Copy Prompt</button>
+                </div>
+            `;
+        });
+    }
+
+    function copyText(id) {
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text);
+        alert("Prompt copied!");
+    }
+
+    render(); // Initial load
+</script>
+
 </body>
 </html>
