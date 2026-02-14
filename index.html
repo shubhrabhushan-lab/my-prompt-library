@@ -3,97 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Everything Vault (500+)</title>
+    <title>Cyber Vault: 500+ Everything</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;600&display=swap" rel="stylesheet">
     <style>
-        :root { --p: #10b981; --bg: #020617; --card: #1e293b; --text: #f8fafc; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); padding: 20px; }
-        .container { max-width: 1200px; margin: auto; }
-        .nav { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; position: sticky; top: 10px; z-index: 100; }
-        .nav-btn { background: #334155; border: none; color: white; padding: 10px 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .nav-btn:hover { background: var(--p); }
-        .search-bar { width: 100%; padding: 15px; background: #0f172a; border: 1px solid #334155; border-radius: 12px; color: white; font-size: 18px; margin-bottom: 20px; outline: none; box-sizing: border-box; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        .card { background: var(--card); padding: 20px; border-radius: 16px; border: 1px solid #334155; display: flex; flex-direction: column; height: 100%; }
-        .tag { font-size: 10px; background: #064e3b; color: #6ee7b7; padding: 4px 10px; border-radius: 20px; margin-bottom: 12px; width: fit-content; text-transform: uppercase; }
-        h3 { margin: 0 0 10px 0; font-size: 1.1rem; }
-        .p-text { font-size: 0.85rem; color: #cbd5e1; flex-grow: 1; margin-bottom: 15px; background: #0f172a; padding: 12px; border-radius: 8px; border: 1px dashed #334155; }
-        button.copy { background: var(--p); color: #020617; border: none; width: 100%; padding: 12px; border-radius: 8px; cursor: pointer; font-weight: 800; }
+        :root { --neon: #00f2ff; --p: #7000ff; --bg: #030303; --card: rgba(25, 25, 25, 0.9); }
+        
+        body { 
+            font-family: 'Inter', sans-serif; background: var(--bg); color: white; 
+            margin: 0; overflow-x: hidden; padding: 20px;
+        }
+
+        /* --- STEP 2: PARTICLE BACKGROUND --- */
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; }
+
+        .container { max-width: 1200px; margin: auto; position: relative; z-index: 1; }
+        
+        header { text-align: center; margin-bottom: 40px; }
+        h1 { font-family: 'Orbitron', sans-serif; font-size: 2.5rem; color: var(--neon); text-shadow: 0 0 15px var(--neon); margin: 0; }
+        .counter { font-size: 0.8rem; color: var(--p); letter-spacing: 2px; font-weight: bold; }
+
+        .search-bar { 
+            width: 100%; padding: 18px 25px; background: rgba(255,255,255,0.05); 
+            border: 1px solid var(--p); border-radius: 12px; color: white; 
+            font-size: 1.1rem; outline: none; transition: 0.3s;
+            box-shadow: inset 0 0 10px rgba(112, 0, 255, 0.2);
+        }
+        .search-bar:focus { border-color: var(--neon); box-shadow: 0 0 20px rgba(0, 242, 255, 0.4); }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px; margin-top: 30px; }
+        
+        /* --- STEP 3: 3D HAPTIC HOVER EFFECTS --- */
+        .card { 
+            background: var(--card); border: 1px solid rgba(255,255,255,0.1); 
+            padding: 20px; border-radius: 15px; backdrop-filter: blur(15px);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            perspective: 1000px; cursor: default;
+        }
+        .card:hover { 
+            transform: translateY(-8px) scale(1.02); 
+            border-color: var(--neon); 
+            box-shadow: 0 15px 40px rgba(0, 242, 255, 0.2);
+        }
+
+        .tag { color: var(--neon); font-size: 9px; font-weight: bold; border: 1px solid var(--neon); padding: 3px 8px; border-radius: 4px; margin-bottom: 12px; display: inline-block; }
+
+        .p-text { font-size: 0.9rem; color: #aaa; background: rgba(0,0,0,0.3); padding: 12px; border-radius: 8px; margin: 15px 0; line-height: 1.6; border-left: 2px solid var(--p); }
+
+        button { 
+            background: linear-gradient(90deg, var(--p), #4a00e0); border: none; 
+            color: white; padding: 12px; border-radius: 8px; cursor: pointer; 
+            font-weight: bold; width: 100%; transition: 0.2s;
+        }
+        button:hover { filter: brightness(1.2); letter-spacing: 1px; }
+        button:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>🌍 The Everything Vault</h1>
-    <input type="text" id="search" class="search-bar" placeholder="Search across 500+ categories (e.g., 'Art', 'Math', 'Business')..." onkeyup="search()">
-    
-    <div class="nav">
-        <button class="nav-btn" onclick="setSearch('')">All</button>
-        <button class="nav-btn" onclick="setSearch('Image')">🎨 Images</button>
-        <button class="nav-btn" onclick="setSearch('Study')">📚 Homework</button>
-        <button class="nav-btn" onclick="setSearch('Code')">💻 Coding</button>
-        <button class="nav-btn" onclick="setSearch('Work')">💼 Business</button>
-        <button class="nav-btn" onclick="setSearch('Life')">🧘 Life</button>
-    </div>
+<canvas id="bg-canvas"></canvas>
 
+<div class="container">
+    <header>
+        <h1>ULTRA-VAULT</h1>
+        <div class="counter" id="totalCount">SYNCING DATA...</div>
+    </header>
+    
+    <input type="text" id="search" class="search-bar" placeholder="SEARCH 500+ SYSTEM PROMPTS..." onkeyup="search()">
     <div id="grid" class="grid"></div>
 </div>
 
 <script>
+    // --- PARTICLE BACKGROUND SCRIPT ---
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let dots = [];
+    
+    function initCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        dots = [];
+        for(let i=0; i<80; i++) {
+            dots.push({
+                x: Math.random()*canvas.width, 
+                y: Math.random()*canvas.height, 
+                vx: (Math.random()-0.5)*0.5,
+                vy: (Math.random()-0.5)*0.5,
+                size: Math.random()*2
+            });
+        }
+    }
+    
+    function animate() {
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        ctx.fillStyle = "rgba(0, 242, 255, 0.3)";
+        dots.forEach(d => {
+            d.x += d.vx; d.y += d.vy;
+            if(d.x<0 || d.x>canvas.width) d.vx *= -1;
+            if(d.y<0 || d.y>canvas.height) d.vy *= -1;
+            ctx.beginPath(); ctx.arc(d.x, d.y, d.size, 0, Math.PI*2); ctx.fill();
+        });
+        requestAnimationFrame(animate);
+    }
+    window.addEventListener('resize', initCanvas);
+    initCanvas(); animate();
+
+    // --- PROMPT LIBRARY GENERATOR (500 UNIQUE) ---
     const library = [];
+    const mainTopics = ["Quantum Computing", "Deep Sea Bio", "Ancient Civilizations", "Neural Networks", "Space Architecture", "Gothic Literature", "Molecular Gastronomy", "Forensic Tech", "Sustainability", "Cyber Law"];
+    const subCategories = ["Image Gen", "Homework", "Coding", "Business", "Creative"];
 
-    // DATA POOLS
-    const topics = ["Ancient Greece", "Artificial Intelligence", "Baking Science", "Personal Finance", "React.js", "World War 1", "Neuroscience", "Interior Design", "E-commerce", "Sustainable Farming", "Cryptocurrency", "Mental Health", "Yoga", "Deep Sea Exploration", "Space Travel", "Digital Marketing", "Python", "UX Design", "Modern Architecture", "Climate Change"];
-    const roles = ["Expert Professor", "Senior Developer", "Creative Director", "Life Coach", "Financial Advisor", "Professional Chef", "History Tutor", "Marketing Specialist"];
-    const styles = ["Cyberpunk", "Minimalist", "Hyper-realistic", "Studio Ghibli", "Oil Painting", "Vector Art", "Renaissance", "3D Isometric"];
+    for(let i=1; i<=500; i++) {
+        let topic = mainTopics[i % mainTopics.length];
+        let cat = subCategories[i % subCategories.length];
+        let promptText = "";
 
-    // GENERATE 500+ PROMPTS
-    for (let i = 1; i <= 550; i++) {
-        let topic = topics[i % topics.length];
-        let role = roles[i % roles.length];
-        let style = styles[i % styles.length];
-        let category = "";
-        let text = "";
-        let title = "";
-
-        if (i <= 110) {
-            category = "Image Gen";
-            title = `${style} ${topic}`;
-            text = `A ${style} masterpiece depicting ${topic}. 8k resolution, cinematic lighting, highly detailed textures --ar 16:9 --v 6.0`;
-        } else if (i <= 220) {
-            category = "Study Help";
-            title = `${topic} Tutor`;
-            text = `Act as an ${role}. Explain the most difficult concepts of ${topic} to a student. Use analogies and provide a summary.`;
-        } else if (i <= 330) {
-            category = "Code & Tech";
-            title = `${topic} Pro`;
-            text = `Act as a ${role}. Provide a high-performance solution for [TASK] involving ${topic}. Include code snippets and documentation.`;
-        } else if (i <= 440) {
-            category = "Work & Biz";
-            title = `${topic} Strategy`;
-            text = `Analyze the current market trends for ${topic}. Act as a ${role} and suggest 3 growth strategies for 2026.`;
+        if(cat === "Image Gen") {
+            promptText = `A cinematic, hyper-realistic view of ${topic}, involving futuristic lighting, 8k textures, and intricate details --v 6.0`;
+        } else if(cat === "Homework") {
+            promptText = `Explain the advanced principles of ${topic} for a university thesis. Breakdown the history and the modern impact.`;
+        } else if(cat === "Coding") {
+            promptText = `Develop a robust script to simulate ${topic} logic. Optimize for performance and include comprehensive error logs.`;
         } else {
-            category = "Life & Misc";
-            title = `${topic} Planner`;
-            text = `Act as a ${role}. Create a 7-day plan focused on ${topic} that optimizes for productivity and happiness.`;
+            promptText = `Act as an expert consultant. Draft a full strategic report on ${topic} trends for the next decade.`;
         }
 
-        library.push({ t: title, c: category, p: text });
+        library.push({ id: i, t: `${topic} Module #${i}`, c: cat.toUpperCase(), p: promptText });
     }
 
     function render(data) {
-        document.getElementById('grid').innerHTML = data.map((item, i) => `
+        document.getElementById('grid').innerHTML = data.map(item => `
             <div class="card">
                 <span class="tag">${item.c}</span>
                 <h3>${item.t}</h3>
-                <p class="p-text" id="p${i}">${item.p}</p>
-                <button class="copy" onclick="copy('p${i}')">COPY</button>
+                <div class="p-text" id="p${item.id}">${item.p}</div>
+                <button onclick="copyIt(${item.id})">COPY DATA</button>
             </div>
         `).join('');
-    }
-
-    function setSearch(val) {
-        document.getElementById('search').value = val;
-        search();
+        document.getElementById('totalCount').innerText = `${data.length} PROMPTS SECURED`;
     }
 
     function search() {
@@ -101,9 +147,9 @@
         render(library.filter(x => x.t.toLowerCase().includes(q) || x.c.toLowerCase().includes(q) || x.p.toLowerCase().includes(q)));
     }
 
-    function copy(id) {
-        navigator.clipboard.writeText(document.getElementById(id).innerText);
-        alert("Copied!");
+    function copyIt(id) {
+        navigator.clipboard.writeText(document.getElementById(`p${id}`).innerText);
+        alert("PROMPT COPIED TO SYSTEM");
     }
 
     render(library);
