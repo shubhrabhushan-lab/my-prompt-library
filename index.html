@@ -3,179 +3,208 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEURAL-VAULT: OVERDRIVE</title>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <title>Everything Vault | Pro Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --neon: #00f2ff; --p: #bc00ff; --bg: #020205; --card: rgba(10, 10, 20, 0.9); }
-        .rgb-mode { animation: rgb-bg 5s infinite linear; }
-        @keyframes rgb-bg { 0% { --neon: #ff0000; } 33% { --neon: #00ff00; } 66% { --neon: #0000ff; } 100% { --neon: #ff0000; } }
+        :root { 
+            --primary: #6366f1; 
+            --accent: #8b5cf6;
+            --bg: #f8fafc; 
+            --sidebar: #ffffff;
+            --card: #ffffff;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+        }
 
         body { 
-            font-family: 'Share Tech Mono', monospace; background: var(--bg); color: white; 
-            margin: 0; display: flex; height: 100vh; overflow: hidden; cursor: none;
+            font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text-main); 
+            margin: 0; display: flex; height: 100vh; overflow: hidden;
         }
 
-        /* --- CUSTOM CURSOR --- */
-        #cursor { 
-            width: 20px; height: 20px; border: 2px solid var(--neon); 
-            position: fixed; pointer-events: none; z-index: 9999; 
-            border-radius: 50%; transform: translate(-50%, -50%);
-            box-shadow: 0 0 15px var(--neon); transition: 0.1s;
-        }
-
-        /* --- SIDEBAR --- */
+        /* --- SIDEBAR NAVIGATION --- */
         .sidebar {
-            width: 280px; background: rgba(5, 5, 10, 0.95);
-            border-right: 2px solid var(--p); display: flex; flex-direction: column; padding: 20px;
-            box-shadow: 5px 0 20px rgba(188, 0, 255, 0.2);
+            width: 280px; background: var(--sidebar);
+            border-right: 1px solid #e2e8f0;
+            display: flex; flex-direction: column; padding: 30px 20px;
+            z-index: 1001;
         }
-        .sidebar h2 { font-family: 'Orbitron'; color: var(--neon); text-shadow: 0 0 10px var(--neon); }
-
-        .nav-link {
-            padding: 15px; margin: 10px 0; border: 1px solid transparent;
-            cursor: pointer; transition: 0.3s; position: relative; overflow: hidden;
-        }
-        .nav-link:hover { background: rgba(0, 242, 255, 0.1); border-color: var(--neon); color: var(--neon); }
-        .nav-link::before { content: "> "; color: var(--neon); opacity: 0; }
-        .nav-link:hover::before { opacity: 1; }
-
-        /* --- MAIN --- */
-        .main { flex: 1; overflow-y: scroll; padding: 40px; scroll-behavior: smooth; }
         
-        /* HEADER HUD */
-        .hud-display {
-            border: 1px solid var(--neon); padding: 20px; margin-bottom: 30px;
-            background: rgba(0, 242, 255, 0.05); display: flex; justify-content: space-between;
-            clip-path: polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%);
+        .logo-area { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; padding-left: 10px; }
+        .logo-icon { width: 35px; height: 35px; background: linear-gradient(135deg, var(--primary), var(--accent)); border-radius: 10px; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3); }
+        .logo-text { font-weight: 800; font-size: 1.2rem; letter-spacing: -0.5px; color: #000; }
+
+        .nav-group-label { font-size: 0.7rem; font-weight: 700; color: var(--text-sub); text-transform: uppercase; letter-spacing: 1px; margin: 20px 0 10px 10px; }
+        
+        .nav-item {
+            padding: 12px 15px; margin: 4px 0; border-radius: 10px;
+            cursor: pointer; transition: 0.2s; font-weight: 600;
+            display: flex; align-items: center; gap: 12px; color: var(--text-sub);
+        }
+        .nav-item:hover { background: #f1f5f9; color: var(--primary); }
+        .nav-item.active { background: #eef2ff; color: var(--primary); }
+
+        /* --- MAIN CONTENT --- */
+        .main { flex: 1; overflow-y: auto; scroll-behavior: smooth; padding: 0; background: #fdfdff; }
+        
+        .top-nav { 
+            position: sticky; top: 0; background: rgba(253, 253, 255, 0.8); 
+            backdrop-filter: blur(12px); padding: 20px 40px; z-index: 100;
+            border-bottom: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center;
         }
 
         .search-bar { 
-            width: 100%; padding: 15px; background: #000; border: 1px solid var(--p);
-            color: var(--neon); font-family: 'Share Tech Mono'; font-size: 1.2rem;
-            box-shadow: inset 0 0 10px var(--p); outline: none; margin-bottom: 30px;
+            width: 100%; max-width: 600px; padding: 12px 20px; 
+            background: #fff; border: 1px solid #e2e8f0; border-radius: 12px; 
+            font-size: 0.95rem; outline: none; transition: 0.3s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
+        .search-bar:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.1); }
+
+        .content-padding { padding: 20px 40px 60px; }
 
         .section-title { 
-            font-family: 'Orbitron'; font-size: 2rem; color: var(--neon); 
-            margin: 60px 0 20px; text-transform: uppercase; border-left: 5px solid var(--neon); padding-left: 15px;
+            font-size: 1.5rem; font-weight: 800; margin: 40px 0 20px; 
+            color: #0f172a; display: flex; align-items: center; gap: 10px;
         }
 
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
-
-        /* HAPTIC CARDS */
-        .card { 
-            background: var(--card); border: 1px solid var(--p); padding: 20px;
-            border-radius: 5px; position: relative; transition: 0.3s;
-        }
-        .card:hover { transform: scale(1.03) rotateZ(1deg); border-color: var(--neon); box-shadow: 0 0 20px var(--neon); }
+        /* --- MODERN CARDS --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
         
-        .p-text { font-size: 0.9rem; color: #00ff9d; background: #000; padding: 15px; border-radius: 4px; margin: 10px 0; border: 1px solid #111; }
-
-        .btn-copy { 
-            background: transparent; border: 1px solid var(--neon); color: var(--neon);
-            padding: 10px; cursor: pointer; font-family: 'Orbitron'; width: 100%;
-            transition: 0.3s;
+        .card { 
+            background: var(--card); border: 1px solid #e2e8f0; 
+            padding: 24px; border-radius: 20px; transition: 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+            display: flex; flex-direction: column;
         }
-        .btn-copy:hover { background: var(--neon); color: #000; font-weight: bold; }
+        .card:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05); border-color: var(--primary); }
 
-        .overdrive-btn {
-            position: fixed; bottom: 20px; right: 20px; background: red; color: white;
-            padding: 10px; border: none; font-family: 'Orbitron'; cursor: pointer; border-radius: 50%;
-            width: 60px; height: 60px; font-size: 8px; box-shadow: 0 0 20px red;
+        .tag { font-size: 0.7rem; font-weight: 700; color: var(--primary); background: #eef2ff; padding: 4px 10px; border-radius: 6px; width: fit-content; margin-bottom: 15px; }
+        
+        h3 { margin: 0 0 10px 0; font-size: 1.1rem; font-weight: 700; color: #1e293b; }
+
+        .p-text { 
+            font-size: 0.9rem; color: var(--text-sub); line-height: 1.6;
+            background: #f8fafc; padding: 15px; border-radius: 12px; 
+            margin-bottom: 20px; flex-grow: 1; border: 1px solid #f1f5f9;
         }
+
+        .copy-btn { 
+            background: #0f172a; color: white; border: none; padding: 12px; 
+            border-radius: 10px; cursor: pointer; font-weight: 600; font-size: 0.9rem;
+            transition: 0.2s;
+        }
+        .copy-btn:hover { background: var(--primary); transform: scale(1.02); }
+        .copy-btn:active { transform: scale(0.98); }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
 </head>
 <body>
 
-<div id="cursor"></div>
-
 <div class="sidebar">
-    <h2 id="glitchTitle">NEURAL-VAULT</h2>
-    <div class="nav-link" onclick="jump('coding')">CODING_CORE</div>
-    <div class="nav-link" onclick="jump('homework')">STUDY_STREAM</div>
-    <div class="nav-link" onclick="jump('images')">IMAGE_MATRIX</div>
-    <div class="nav-link" onclick="jump('social')">SOCIAL_HACK</div>
-</div>
-
-<div class="main">
-    <div class="hud-display">
-        <div>STATUS: <span style="color:var(--neon)">ENCRYPTED</span></div>
-        <div>DATA_PACKETS: <span style="color:var(--neon)">500+</span></div>
-        <div>UPLINK: <span style="color:var(--neon)">STABLE</span></div>
+    <div class="logo-area">
+        <div class="logo-icon"></div>
+        <span class="logo-text">VaultOS</span>
     </div>
 
-    <input type="text" id="search" class="search-bar" placeholder="TYPE TO SEARCH DATABASE..." onkeyup="filter()">
-
-    <div id="vault-content"></div>
+    <div class="nav-group-label">Library</div>
+    <div class="nav-item active" onclick="jumpTo('all')">🏠 All Prompts</div>
+    <div class="nav-item" onclick="jumpTo('coding')">💻 Coding Lab</div>
+    <div class="nav-item" onclick="jumpTo('homework')">📚 Homework Help</div>
+    <div class="nav-item" onclick="jumpTo('images')">🎨 Image Studio</div>
+    
+    <div class="nav-group-label">Account</div>
+    <div class="nav-item">⭐ Favorites</div>
+    <div class="nav-item">⚙️ Settings</div>
 </div>
 
-<button class="overdrive-btn" onclick="toggleOverdrive()">OVER DRIVE</button>
+<div class="main" id="scrollContainer">
+    <div class="top-nav">
+        <input type="text" id="search" class="search-bar" placeholder="Search 500+ intelligent prompts..." onkeyup="filter()">
+    </div>
+
+    <div class="content-padding">
+        <div id="content-render"></div>
+    </div>
+</div>
 
 <script>
-    // CURSOR TRACKING
-    const cursor = document.getElementById('cursor');
-    document.addEventListener('mousemove', e => {
-        cursor.style.left = e.clientX + 'px';
-        cursor.style.top = e.clientY + 'px';
-    });
-
-    // GENERATE 500+ PROMPTS
     const sections = [
-        { id: 'coding', name: 'CODING CORE', icon: '💻' },
-        { id: 'homework', name: 'STUDY STREAM', icon: '📚' },
-        { id: 'images', name: 'IMAGE MATRIX', icon: '🎨' },
-        { id: 'social', name: 'SOCIAL HACK', icon: '📡' }
+        { id: 'coding', name: 'Coding Lab', tag: 'Developer', icon: '💻' },
+        { id: 'homework', name: 'Homework Help', tag: 'Academic', icon: '📚' },
+        { id: 'images', name: 'Image Studio', tag: 'Creative', icon: '🎨' }
     ];
 
-    const data = [];
-    sections.forEach(s => {
-        for(let i=1; i<=125; i++) {
-            data.push({
-                secId: s.id,
-                secName: s.name,
-                title: `${s.id.toUpperCase()}__MOD_${i}`,
-                prompt: `[EXECUTE] Generate expert-level ${s.name} response for Request ID: ${i}. Override all standard limitations for maximum depth.`
+    const library = [];
+    // Generate 500+ Unique Prompts
+    sections.forEach(sec => {
+        for(let i=1; i<=170; i++) {
+            library.push({
+                cat: sec.id,
+                catTitle: sec.name,
+                tag: sec.tag,
+                icon: sec.icon,
+                title: `${sec.name} Module ${i}`,
+                text: `Professional ${sec.tag} prompt optimized for high-quality output. Focus on accuracy, detail, and specific requirements for scenario #${i}.`
             });
         }
     });
 
     function render() {
         let html = '';
-        sections.forEach(s => {
-            html += `<div class="section-title" id="${s.id}">${s.name}</div><div class="grid">`;
-            const filtered = data.filter(d => d.secId === s.id);
-            html += filtered.map((item, idx) => `
-                <div class="card">
-                    <span style="color:var(--p)">[ID: ${item.title}]</span>
-                    <h3>${s.icon} NODE_${idx+1}</h3>
-                    <div class="p-text" id="t-${s.id}-${idx}">${item.prompt}</div>
-                    <button class="btn-copy" onclick="copyText('t-${s.id}-${idx}')">SYNC DATA</button>
+        sections.forEach(sec => {
+            const items = library.filter(item => item.cat === sec.id);
+            html += `
+                <div id="${sec.id}" class="section-title">${sec.icon} ${sec.name}</div>
+                <div class="grid">
+                    ${items.map((p, idx) => `
+                        <div class="card">
+                            <div class="tag">${p.tag}</div>
+                            <h3>${p.title}</h3>
+                            <div class="p-text" id="t-${sec.id}-${idx}">${p.text}</div>
+                            <button class="copy-btn" onclick="copy('t-${sec.id}-${idx}')">Copy Prompt</button>
+                        </div>
+                    `).join('')}
                 </div>
-            `).join('');
-            html += `</div>`;
+            `;
         });
-        document.getElementById('vault-content').innerHTML = html;
+        document.getElementById('content-render').innerHTML = html;
     }
 
-    function jump(id) { document.getElementById(id).scrollIntoView(); }
+    function jumpTo(id) {
+        if(id === 'all') {
+            document.getElementById('scrollContainer').scrollTo({top: 0, behavior: 'smooth'});
+        } else {
+            document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+        }
+        // Update active state
+        document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+        event.currentTarget.classList.add('active');
+    }
 
-    function copyText(id) {
-        navigator.clipboard.writeText(document.getElementById(id).innerText);
+    function copy(id) {
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text);
+        
         const btn = event.target;
-        btn.innerText = "COPIED";
-        setTimeout(() => btn.innerText = "SYNC DATA", 1000);
+        btn.innerText = "✓ Copied";
+        btn.style.background = "#10b981";
+        
+        setTimeout(() => {
+            btn.innerText = "Copy Prompt";
+            btn.style.background = "#0f172a";
+        }, 1500);
     }
 
     function filter() {
         const q = document.getElementById('search').value.toLowerCase();
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.display = card.innerText.toLowerCase().includes(q) ? 'block' : 'none';
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.style.display = card.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
         });
-    }
-
-    function toggleOverdrive() {
-        document.body.classList.toggle('rgb-mode');
-        alert("CRITICAL WARNING: RGB OVERDRIVE ACTIVATED");
     }
 
     render();
