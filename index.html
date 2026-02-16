@@ -7,106 +7,66 @@
     <title>VaultOS | Professional Intelligence</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --primary: #6366f1; --accent: #10b981; --bg: #0b0f1a; --sidebar: #111827; --card: #1f2937; --text: #f3f4f6; --text-dim: #9ca3af; }
+        :root { 
+            --primary: #6366f1; --accent: #10b981; --bg: #0b0f1a; 
+            --card: #1f2937; --text: #f3f4f6; --text-dim: #9ca3af;
+        }
         * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; }
-
-        /* SIDEBAR FIXED TO LEFT */
-        .sidebar {
-            width: 280px; position: fixed; left: 0; top: 0; bottom: 0;
-            background: var(--sidebar); border-right: 1px solid rgba(255,255,255,0.1);
-            display: flex; flex-direction: column; padding: 30px 20px; z-index: 1000;
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); 
+            margin: 0; min-height: 100vh; overflow-x: hidden;
         }
 
-        /* MAIN CONTENT PUSHED TO RIGHT */
-        .main { 
-            margin-left: 280px; width: calc(100% - 280px); min-height: 100vh;
-            background: radial-gradient(circle at top right, #1e1b4b, #0b0f1a); 
+        /* --- NEW TOP NAVIGATION HUB --- */
+        .top-nav {
+            background: rgba(17, 24, 39, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1);
+            padding: 15px 40px; display: flex; align-items: center; justify-content: space-between;
+            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
         }
+        .logo-box { display: flex; align-items: center; gap: 10px; }
+        .logo-svg { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
         
-        .header-hud { 
-            padding: 40px 50px; border-bottom: 1px solid rgba(255,255,255,0.05); 
-            display: flex; justify-content: space-between; align-items: center; 
-            position: sticky; top: 0; background: rgba(11, 15, 26, 0.9); backdrop-filter: blur(15px); z-index: 500; 
+        .nav-links { display: flex; gap: 20px; }
+        .nav-link { 
+            color: var(--text-dim); text-decoration: none; font-weight: 600; font-size: 0.9rem;
+            padding: 8px 15px; border-radius: 8px; transition: 0.3s; cursor: pointer;
         }
+        .nav-link:hover { background: rgba(255,255,255,0.05); color: var(--primary); }
+        .nav-link.active { background: var(--primary); color: white; }
 
-        .logo-container { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
-        .logo-svg { width: 42px; height: 42px; filter: drop-shadow(0 0 10px var(--primary)); animation: pulse3d 3s infinite ease-in-out; }
-        @keyframes pulse3d { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        /* --- SEARCH AREA --- */
+        .hero-section {
+            padding: 60px 40px 20px 40px; text-align: center;
+            background: radial-gradient(circle at top, #1e1b4b, #0b0f1a);
+        }
+        .search-container { max-width: 600px; margin: 30px auto; position: relative; }
+        .search-bar { 
+            width: 100%; padding: 18px 25px; background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; 
+            color: white; font-size: 1.1rem; outline: none; transition: 0.3s;
+        }
+        .search-bar:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
 
-        .nav-item { padding: 14px 18px; margin: 8px 0; border-radius: 12px; cursor: pointer; color: var(--text-dim); display: flex; align-items: center; gap: 12px; transition: 0.3s; }
-        .nav-item.active { background: var(--primary); color: white; }
-
-        .search-bar { width: 350px; padding: 12px 20px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 40px 50px; }
-        .card { background: var(--card); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); overflow: hidden; transition: 0.3s; }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
-        .card-image { width: 100%; height: 160px; background-size: cover; background-position: center; }
-        .card-content { padding: 25px; }
-        .copy-btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 700; }
+        /* --- GRID --- */
+        .grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 25px; padding: 40px; max-width: 1400px; margin: 0 auto;
+        }
+        .card { 
+            background: var(--card); border-radius: 20px; overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
+        }
+        .card:hover { transform: translateY(-8px); border-color: var(--primary); }
+        .card-image { width: 100%; height: 150px; background-size: cover; background-position: center; }
+        .card-content { padding: 20px; }
+        .copy-btn { 
+            background: var(--primary); color: white; border: none; padding: 12px; 
+            border-radius: 10px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 700; 
+        }
     </style>
 </head>
 <body>
 
-<div class="sidebar">
-    <div class="logo-container">
-        <svg class="logo-svg" viewBox="0 0 100 100"><path d="M20 30 L50 80 L80 30 Z" fill="none" stroke="var(--primary)" stroke-width="8"/></svg>
-        <span style="font-weight:800; font-size:1.5rem;">VAULT<span style="color:var(--primary)">OS</span></span>
-    </div>
-    <div class="nav-item active">🏠 Dashboard</div>
-    <div class="nav-item">💻 Coding Lab</div>
-    <div class="nav-item">📚 Homework</div>
-    <div class="nav-item">🎨 AI Images</div>
-</div>
-
-<div class="main">
-    <div class="header-hud">
-        <h1 style="margin:0; font-size:1.8rem;">Intelligence Hub</h1>
-        <input type="text" id="searchInput" class="search-bar" placeholder="Search prompts..." onkeyup="filterPrompts()">
-    </div>
-    <div class="grid" id="prompt-grid"></div>
-</div>
-
-<script>
-    const cats = [
-        { name: "Coding", img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400" },
-        { name: "Homework", img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400" },
-        { name: "Images", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400" }
-    ];
-
-    const library = [];
-    for(let i=1; i<=500; i++) {
-        const type = cats[i % cats.length];
-        library.push({ title: `${type.name} Master #${i}`, cat: type.name, img: type.img, text: `Vault Protocol ${i}: Optimized expert output.` });
-    }
-
-    function render(data) {
-        document.getElementById('prompt-grid').innerHTML = data.map((p, i) => `
-            <div class="card">
-                <div class="card-image" style="background-image: url('${p.img}')"></div>
-                <div class="card-content">
-                    <div style="color:var(--accent); font-size:0.75rem; font-weight:800;">${p.cat.toUpperCase()}</div>
-                    <h3>${p.title}</h3>
-                    <p id="p${i}" style="color:var(--text-dim); font-size:0.9rem;">${p.text}</p>
-                    <button class="copy-btn" onclick="copyAction('p${i}')">COPY PROMPT</button>
-                </div>
-            </div>
-        `).join('');
-    }
-
-    function filterPrompts() {
-        const query = document.getElementById('searchInput').value.toLowerCase();
-        const filtered = library.filter(p => p.title.toLowerCase().includes(query) || p.cat.toLowerCase().includes(query));
-        render(filtered);
-    }
-
-    function copyAction(id) {
-        navigator.clipboard.writeText(document.getElementById(id).innerText);
-        event.target.innerText = "✓ COPIED";
-        setTimeout(() => { event.target.innerText = "COPY PROMPT"; }, 2000);
-    }
-
-    render(library);
-</script>
-</body>
-</html>
+<div class="top-nav">
+    <div class="logo-box">
+        <svg class="logo-svg" viewBox="0 0 100 100"><path d="M20 3
