@@ -16,17 +16,17 @@
             margin: 0; display: flex; height: 100vh; overflow: hidden;
         }
 
-        /* --- 3D PULSE LOGO ANIMATION --- */
+        /* --- 3D PULSE LOGO --- */
         .logo-container { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
         .logo-svg { 
-            width: 40px; height: 40px; 
-            filter: drop-shadow(0 0 8px var(--primary));
-            animation: pulse 3s infinite;
+            width: 42px; height: 42px; 
+            filter: drop-shadow(0 0 10px var(--primary));
+            animation: pulse3d 3s infinite ease-in-out;
         }
-        @keyframes pulse {
-            0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 5px var(--primary)); }
-            50% { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 15px var(--primary)); }
-            100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 5px var(--primary)); }
+        @keyframes pulse3d {
+            0% { transform: perspective(500px) rotateY(0deg) scale(1); }
+            50% { transform: perspective(500px) rotateY(20deg) scale(1.1); filter: drop-shadow(0 0 20px var(--primary)); }
+            100% { transform: perspective(500px) rotateY(0deg) scale(1); }
         }
 
         .sidebar {
@@ -34,94 +34,17 @@
             display: flex; flex-direction: column; padding: 30px 20px;
         }
         .nav-item {
-            padding: 12px 15px; margin: 5px 0; border-radius: 10px;
+            padding: 14px 18px; margin: 8px 0; border-radius: 12px;
             cursor: pointer; transition: 0.3s; font-weight: 600; color: var(--text-dim);
+            display: flex; align-items: center; gap: 12px;
         }
-        .nav-item:hover { background: rgba(99, 102, 241, 0.1); color: var(--primary); transform: translateX(5px); }
-        .nav-item.active { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
+        .nav-item:hover { background: rgba(99, 102, 241, 0.1); color: var(--primary); transform: translateX(8px); }
+        .nav-item.active { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); }
 
         .main { flex: 1; overflow-y: auto; background: radial-gradient(circle at top right, #1e1b4b, #0b0f1a); scroll-behavior: smooth; }
-        .header-hud { padding: 50px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .header-hud { padding: 60px 50px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; padding: 40px 50px; }
-        
-        /* --- CARD HOVER ANIMATION --- */
+        /* --- GRID & COLUMN IMAGES --- */
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 40px 50px; }
         .card { 
-            background: var(--card); padding: 25px; border-radius: 20px; 
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
-        }
-        .card:hover { 
-            transform: translateY(-10px) scale(1.02); 
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-        }
-
-        .copy-btn { 
-            background: var(--primary); color: white; border: none; padding: 12px; 
-            border-radius: 10px; cursor: pointer; width: 100%; margin-top: 15px; 
-            font-weight: 700; transition: 0.2s;
-        }
-        .copy-btn:active { transform: scale(0.95); }
-    </style>
-</head>
-<body>
-
-<audio id="clickSound" src="https://www.soundjay.com/buttons/button-16.mp3"></audio>
-
-<div class="sidebar">
-    <div class="logo-container">
-        <svg class="logo-svg" viewBox="0 0 100 100">
-            <path d="M20 30 L50 80 L80 30" fill="none" stroke="var(--primary)" stroke-width="12" stroke-linecap="round"/>
-        </svg>
-        <span style="font-weight:800; font-size:1.4rem;">VAULT<span style="color:var(--primary)">OS</span></span>
-    </div>
-    <div class="nav-item active" onclick="playSound()">🏠 All Prompts</div>
-    <div class="nav-item" onclick="playSound()">💻 Coding Lab</div>
-    <div class="nav-item" onclick="playSound()">📚 Homework</div>
-</div>
-
-<div class="main">
-    <div class="header-hud">
-        <h1 style="font-size: 2.5rem; margin:0;">500+ Premium Prompts</h1>
-        <p style="color:var(--accent); font-weight:800;">SYSTEM STATUS: ACTIVE</p>
-    </div>
-    <div class="grid" id="prompt-grid"></div>
-</div>
-
-<script>
-    const sound = document.getElementById('clickSound');
-    function playSound() { sound.currentTime = 0; sound.play(); }
-
-    const categories = ["Coding", "Homework", "Images", "Writing", "Marketing"];
-    const library = [];
-
-    // --- GENERATING 500 PROMPTS ---
-    for(let i=1; i<=500; i++) {
-        const cat = categories[i % categories.length];
-        library.push({
-            title: `${cat} Intelligence #${i}`,
-            cat: cat,
-            text: `System Prompt ${i}: Act as a professional expert in ${cat}. Provide a high-level solution for task sequence ${i*123}.`
-        });
-    }
-
-    const grid = document.getElementById('prompt-grid');
-    grid.innerHTML = library.map((p, i) => `
-        <div class="card">
-            <div style="color:var(--accent); font-size:0.7rem; font-weight:800; letter-spacing:1px;">${p.cat.toUpperCase()}</div>
-            <h3 style="margin:10px 0;">${p.title}</h3>
-            <p id="p${i}" style="color:var(--text-dim); font-size:0.9rem; line-height:1.6;">${p.text}</p>
-            <button class="copy-btn" onclick="copyPrompt('p${i}')">COPY TO VAULT</button>
-        </div>
-    `).join('');
-
-    function copyPrompt(id) {
-        playSound();
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
-        event.target.innerText = "✓ COPIED TO VAULT";
-        setTimeout(() => { event.target.innerText = "COPY TO VAULT"; }, 2000);
-    }
-</script>
-</body>
-</html>
+            background: var(--card); padding: 0; border-radius: 24
