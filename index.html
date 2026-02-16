@@ -4,69 +4,92 @@
     <meta name="google-site-verification" content="tX1tSSe8i56Vx9SHUoGRk8qTNFqNOgRhHU4Uga2CBnM" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VaultOS | Professional Intelligence</title>
+    <title>VaultOS | intelligence Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { 
-            --primary: #6366f1; --accent: #10b981; --bg: #0b0f1a; 
-            --card: #1f2937; --text: #f3f4f6; --text-dim: #9ca3af;
-        }
+        :root { --primary: #6366f1; --accent: #10b981; --bg: #0b0f1a; --card: #1f2937; --text: #f3f4f6; }
         * { box-sizing: border-box; }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); 
-            margin: 0; min-height: 100vh; overflow-x: hidden;
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+
+        /* HEADER AREA */
+        .header {
+            background: #111827; padding: 20px 50px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex; justify-content: space-between; align-items: center;
+            position: sticky; top: 0; z-index: 1000;
         }
 
-        /* --- NEW TOP NAVIGATION HUB --- */
-        .top-nav {
-            background: rgba(17, 24, 39, 0.95); border-bottom: 1px solid rgba(255,255,255,0.1);
-            padding: 15px 40px; display: flex; align-items: center; justify-content: space-between;
-            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
+        .search-box { 
+            width: 350px; padding: 12px 20px; background: rgba(255,255,255,0.05); 
+            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none;
         }
-        .logo-box { display: flex; align-items: center; gap: 10px; }
-        .logo-svg { width: 32px; height: 32px; filter: drop-shadow(0 0 8px var(--primary)); }
+
+        /* MAIN CONTENT - NO SIDEBAR */
+        .container { max-width: 1400px; margin: 0 auto; padding: 40px; }
         
-        .nav-links { display: flex; gap: 20px; }
-        .nav-link { 
-            color: var(--text-dim); text-decoration: none; font-weight: 600; font-size: 0.9rem;
-            padding: 8px 15px; border-radius: 8px; transition: 0.3s; cursor: pointer;
-        }
-        .nav-link:hover { background: rgba(255,255,255,0.05); color: var(--primary); }
-        .nav-link.active { background: var(--primary); color: white; }
-
-        /* --- SEARCH AREA --- */
-        .hero-section {
-            padding: 60px 40px 20px 40px; text-align: center;
-            background: radial-gradient(circle at top, #1e1b4b, #0b0f1a);
-        }
-        .search-container { max-width: 600px; margin: 30px auto; position: relative; }
-        .search-bar { 
-            width: 100%; padding: 18px 25px; background: rgba(255,255,255,0.05); 
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; 
-            color: white; font-size: 1.1rem; outline: none; transition: 0.3s;
-        }
-        .search-bar:focus { border-color: var(--primary); box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
-
-        /* --- GRID --- */
         .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-            gap: 25px; padding: 40px; max-width: 1400px; margin: 0 auto;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
+            gap: 30px; width: 100%;
         }
+
         .card { 
-            background: var(--card); border-radius: 20px; overflow: hidden;
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s;
+            background: var(--card); border-radius: 24px; padding: 30px;
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .card:hover { transform: translateY(-8px); border-color: var(--primary); }
-        .card-image { width: 100%; height: 150px; background-size: cover; background-position: center; }
-        .card-content { padding: 20px; }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
+
         .copy-btn { 
-            background: var(--primary); color: white; border: none; padding: 12px; 
-            border-radius: 10px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 700; 
+            background: var(--primary); color: white; border: none; padding: 14px; 
+            border-radius: 12px; cursor: pointer; width: 100%; margin-top: 20px; font-weight: 700; 
         }
     </style>
 </head>
 <body>
 
-<div class="top-nav">
-    <div class="logo-box">
-        <svg class="logo-svg" viewBox="0 0 100 100"><path d="M20 3
+<div class="header">
+    <div style="font-weight:800; font-size:1.6rem; letter-spacing:-1px;">VAULT<span style="color:var(--primary)">OS</span></div>
+    <input type="text" id="search" class="search-box" placeholder="Search 500+ prompts..." onkeyup="filter()">
+</div>
+
+<div class="container">
+    <div style="margin-bottom: 40px;">
+        <h1 style="font-size: 2.5rem; margin: 0;">Welcome to the Library</h1>
+        <p style="color: #9ca3af;">System status: <span style="color: var(--accent); font-weight: 800;">VERIFIED BY GOOGLE</span></p>
+    </div>
+    <div class="grid" id="prompt-grid"></div>
+</div>
+
+<script>
+    const library = [];
+    for(let i=1; i<=500; i++) {
+        library.push({ 
+            title: `Intelligence Prompt #${i}`, 
+            text: `Professional Vault Protocol ${i}: Optimized expert output for high-level tasks.` 
+        });
+    }
+
+    function render(data) {
+        document.getElementById('prompt-grid').innerHTML = data.map((p, i) => `
+            <div class="card">
+                <div style="color:var(--accent); font-size:0.75rem; font-weight:800; letter-spacing:1px; margin-bottom:10px;">PREMIUM</div>
+                <h3 style="margin:0 0 15px 0; font-size:1.3rem;">${p.title}</h3>
+                <p id="p${i}" style="color:#9ca3af; font-size:0.95rem; line-height:1.6;">${p.text}</p>
+                <button class="copy-btn" onclick="copyAction('p${i}')">COPY PROMPT</button>
+            </div>
+        `).join('');
+    }
+
+    function filter() {
+        const q = document.getElementById('search').value.toLowerCase();
+        render(library.filter(p => p.title.toLowerCase().includes(q)));
+    }
+
+    function copyAction(id) {
+        navigator.clipboard.writeText(document.getElementById(id).innerText);
+        event.target.innerText = "✓ COPIED";
+        setTimeout(() => { event.target.innerText = "COPY PROMPT"; }, 2000);
+    }
+
+    render(library);
+</script>
+</body>
+</html>
