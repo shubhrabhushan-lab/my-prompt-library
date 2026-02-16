@@ -1,199 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta name="google-site-verification" content="tX1tSSe8i56Vx9SHUoGRk8qTNFqNOgRhHU4Uga2CBnM" />
+<head>
+    <meta name="google-site-verification" content="tX1tSSe8i56Vx9SHUoGRk8qTNFqNOgRhHU4Uga2CBnM" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VaultOS | Professional Intelligence</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { 
-            --primary: #6366f1; 
-            --accent: #10b981;
-            --bg: #0b0f1a; 
-            --sidebar: #111827;
-            --card: #1f2937;
-            --text: #f3f4f6;
-            --text-dim: #9ca3af;
+            --primary: #6366f1; --accent: #10b981; --bg: #0b0f1a; 
+            --sidebar: #111827; --card: #1f2937; --text: #f3f4f6; --text-dim: #9ca3af;
         }
-
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); 
             margin: 0; display: flex; height: 100vh; overflow: hidden;
         }
 
-        /* --- SIDEBAR & DYNAMIC LOGO --- */
+        /* --- 3D PULSE LOGO ANIMATION --- */
+        .logo-container { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
+        .logo-svg { 
+            width: 40px; height: 40px; 
+            filter: drop-shadow(0 0 8px var(--primary));
+            animation: pulse 3s infinite;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 5px var(--primary)); }
+            50% { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 15px var(--primary)); }
+            100% { transform: scale(1) rotate(0deg); filter: drop-shadow(0 0 5px var(--primary)); }
+        }
+
         .sidebar {
-            width: 280px; background: var(--sidebar);
-            border-right: 1px solid rgba(255,255,255,0.1);
+            width: 280px; background: var(--sidebar); border-right: 1px solid rgba(255,255,255,0.1);
             display: flex; flex-direction: column; padding: 30px 20px;
         }
-        
-        .logo-container { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
-        .logo-svg { width: 40px; height: 40px; filter: drop-shadow(0 0 8px var(--primary)); animation: pulse 3s infinite; }
-        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-
-        .nav-group { font-size: 0.7rem; font-weight: 800; color: var(--text-dim); text-transform: uppercase; letter-spacing: 1.5px; margin: 25px 0 10px 10px; }
         .nav-item {
             padding: 12px 15px; margin: 5px 0; border-radius: 10px;
-            cursor: pointer; transition: all 0.2s; font-weight: 600; color: var(--text-dim);
-            display: flex; align-items: center; gap: 12px;
+            cursor: pointer; transition: 0.3s; font-weight: 600; color: var(--text-dim);
         }
-        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--primary); }
-        .nav-item.active { background: var(--primary); color: white; box-shadow: 0 10px 15px -3px rgba(99, 102, 241, 0.4); }
+        .nav-item:hover { background: rgba(99, 102, 241, 0.1); color: var(--primary); transform: translateX(5px); }
+        .nav-item.active { background: var(--primary); color: white; box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4); }
 
-        /* --- MAIN DASHBOARD --- */
-        .main { flex: 1; overflow-y: auto; scroll-behavior: smooth; background: radial-gradient(circle at top right, #1e1b4b, #0b0f1a); }
+        .main { flex: 1; overflow-y: auto; background: radial-gradient(circle at top right, #1e1b4b, #0b0f1a); scroll-behavior: smooth; }
+        .header-hud { padding: 50px; border-bottom: 1px solid rgba(255,255,255,0.05); }
         
-        .header-hud { 
-            position: sticky; top: 0; background: rgba(11, 15, 26, 0.8); 
-            backdrop-filter: blur(20px); padding: 25px 50px; z-index: 1000;
-            display: flex; align-items: center; justify-content: space-between;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-
-        .search-box { 
-            width: 450px; padding: 12px 20px; background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; 
-            color: white; font-size: 0.9rem; outline: none; transition: 0.3s;
-        }
-        .search-box:focus { border-color: var(--primary); background: rgba(255,255,255,0.1); }
-
-        /* --- EXPLOSIVE CONTENT CARDS --- */
-        .content-area { padding: 40px 50px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 25px; padding: 40px 50px; }
         
+        /* --- CARD HOVER ANIMATION --- */
         .card { 
-            background: var(--card); border: 1px solid rgba(255,255,255,0.05); 
-            padding: 25px; border-radius: 20px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            display: flex; flex-direction: column; position: relative; overflow: hidden;
+            background: var(--card); padding: 25px; border-radius: 20px; 
+            border: 1px solid rgba(255,255,255,0.05); transition: 0.4s;
         }
-        .card:hover { transform: translateY(-8px); border-color: var(--primary); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5); }
-        .card::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(45deg, transparent, rgba(99, 102, 241, 0.05)); pointer-events: none; }
-
-        .card-tag { font-size: 10px; font-weight: 800; color: var(--accent); letter-spacing: 1px; margin-bottom: 10px; }
-        .p-text { font-size: 0.9rem; color: var(--text-dim); background: rgba(0,0,0,0.2); padding: 15px; border-radius: 12px; margin: 15px 0; border: 1px solid rgba(255,255,255,0.03); }
+        .card:hover { 
+            transform: translateY(-10px) scale(1.02); 
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
 
         .copy-btn { 
-            background: var(--primary); color: white; border: none; padding: 14px; 
-            border-radius: 12px; cursor: pointer; font-weight: 700; transition: 0.3s;
+            background: var(--primary); color: white; border: none; padding: 12px; 
+            border-radius: 10px; cursor: pointer; width: 100%; margin-top: 15px; 
+            font-weight: 700; transition: 0.2s;
         }
-        .copy-btn:hover { background: #4f46e5; transform: scale(1.02); }
-
-        /* --- HUD ELEMENTS --- */
-        .shortcut-hint { font-size: 0.7rem; color: var(--text-dim); background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; margin-left: 10px; }
+        .copy-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
+<audio id="clickSound" src="https://www.soundjay.com/buttons/button-16.mp3"></audio>
+
 <div class="sidebar">
     <div class="logo-container">
         <svg class="logo-svg" viewBox="0 0 100 100">
-            <path d="M20 30 L50 80 L80 30" fill="none" stroke="var(--primary)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-            <circle cx="50" cy="40" r="10" fill="var(--accent)"/>
+            <path d="M20 30 L50 80 L80 30" fill="none" stroke="var(--primary)" stroke-width="12" stroke-linecap="round"/>
         </svg>
-        <span class="logo-text" style="font-weight:800; font-size:1.4rem;">VAULT<span style="color:var(--primary)">OS</span></span>
+        <span style="font-weight:800; font-size:1.4rem;">VAULT<span style="color:var(--primary)">OS</span></span>
     </div>
-
-    <div class="nav-group">Workspace</div>
-    <div class="nav-item active" onclick="jump('all')">🏠 All Prompts <span class="shortcut-hint">A</span></div>
-    <div class="nav-item" onclick="jump('coding')">💻 Coding Lab <span class="shortcut-hint">C</span></div>
-    <div class="nav-item" onclick="jump('homework')">📚 Homework <span class="shortcut-hint">H</span></div>
-    <div class="nav-item" onclick="jump('images')">🎨 AI Images <span class="shortcut-hint">I</span></div>
+    <div class="nav-item active" onclick="playSound()">🏠 All Prompts</div>
+    <div class="nav-item" onclick="playSound()">💻 Coding Lab</div>
+    <div class="nav-item" onclick="playSound()">📚 Homework</div>
 </div>
 
-<div class="main" id="scroller">
+<div class="main">
     <div class="header-hud">
-        <input type="text" id="search" class="search-box" placeholder="Press 'S' to search database..." onkeyup="filter()">
-        <div id="stats" style="font-size:0.8rem; font-weight:600; color:var(--accent)">SYSTEM ACTIVE: 500+ NODES</div>
+        <h1 style="font-size: 2.5rem; margin:0;">500+ Premium Prompts</h1>
+        <p style="color:var(--accent); font-weight:800;">SYSTEM STATUS: ACTIVE</p>
     </div>
-
-    <div class="content-area" id="render-target"></div>
+    <div class="grid" id="prompt-grid"></div>
 </div>
 
 <script>
-    const sections = [
-        { id: 'coding', name: 'Coding Lab', tag: 'ENGINEERING' },
-        { id: 'homework', name: 'Homework', tag: 'ACADEMIC' },
-        { id: 'images', name: 'AI Images', tag: 'CREATIVE' }
-    ];
+    const sound = document.getElementById('clickSound');
+    function playSound() { sound.currentTime = 0; sound.play(); }
 
+    const categories = ["Coding", "Homework", "Images", "Writing", "Marketing"];
     const library = [];
-    sections.forEach(sec => {
-        for(let i=1; i<=170; i++) {
-            library.push({
-                cat: sec.id,
-                title: `${sec.name} Sequence 0${i}`,
-                tag: sec.tag,
-                text: `EXPERT SYSTEM PROMPT: Act as an elite specialist in ${sec.name}. Solve task #${i} with maximum precision, considering all edge cases and professional standards.`
-            });
-        }
-    });
 
-    // --- AUDIO ENGINE ---
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    function clickSound() {
-        const osc = audioCtx.createOscillator();
-        const g = audioCtx.createGain();
-        osc.connect(g); g.connect(audioCtx.destination);
-        osc.frequency.setValueAtTime(1500, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + 0.1);
-        g.gain.setValueAtTime(0.15, audioCtx.currentTime);
-        g.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.1);
-    }
-
-    function render() {
-        let html = '';
-        sections.forEach(sec => {
-            const items = library.filter(p => p.cat === sec.id);
-            html += `<h2 id="${sec.id}" style="margin-top:60px; font-weight:800; letter-spacing:-1px;">${sec.name}</h2><div class="grid">`;
-            html += items.map((p, idx) => `
-                <div class="card">
-                    <div class="card-tag">${p.tag}</div>
-                    <h3 style="margin:0; font-size:1.1rem;">${p.title}</h3>
-                    <div class="p-text" id="t-${sec.id}-${idx}">${p.text}</div>
-                    <button class="copy-btn" onclick="executeCopy('t-${sec.id}-${idx}')">SYNC TO CLIPBOARD</button>
-                </div>
-            `).join('');
-            html += `</div>`;
+    // --- GENERATING 500 PROMPTS ---
+    for(let i=1; i<=500; i++) {
+        const cat = categories[i % categories.length];
+        library.push({
+            title: `${cat} Intelligence #${i}`,
+            cat: cat,
+            text: `System Prompt ${i}: Act as a professional expert in ${cat}. Provide a high-level solution for task sequence ${i*123}.`
         });
-        document.getElementById('render-target').innerHTML = html;
     }
 
-    function executeCopy(id) {
-        clickSound();
+    const grid = document.getElementById('prompt-grid');
+    grid.innerHTML = library.map((p, i) => `
+        <div class="card">
+            <div style="color:var(--accent); font-size:0.7rem; font-weight:800; letter-spacing:1px;">${p.cat.toUpperCase()}</div>
+            <h3 style="margin:10px 0;">${p.title}</h3>
+            <p id="p${i}" style="color:var(--text-dim); font-size:0.9rem; line-height:1.6;">${p.text}</p>
+            <button class="copy-btn" onclick="copyPrompt('p${i}')">COPY TO VAULT</button>
+        </div>
+    `).join('');
+
+    function copyPrompt(id) {
+        playSound();
         const text = document.getElementById(id).innerText;
         navigator.clipboard.writeText(text);
-        
-        const btn = event.target;
-        btn.innerText = "✓ SYNCED";
-        btn.style.background = "var(--accent)";
-        setTimeout(() => { btn.innerText = "SYNC TO CLIPBOARD"; btn.style.background = "var(--primary)"; }, 1500);
+        event.target.innerText = "✓ COPIED TO VAULT";
+        setTimeout(() => { event.target.innerText = "COPY TO VAULT"; }, 2000);
     }
-
-    function jump(id) {
-        if(id === 'all') document.getElementById('scroller').scrollTo({top:0, behavior:'smooth'});
-        else document.getElementById(id).scrollIntoView({behavior:'smooth'});
-        document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-        event.currentTarget.classList.add('active');
-    }
-
-    // --- KEYBOARD SHORTCUTS ---
-    window.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === 's') { e.preventDefault(); document.getElementById('search').focus(); }
-        if (e.key.toLowerCase() === 'c') jump('coding');
-        if (e.key.toLowerCase() === 'h') jump('homework');
-        if (e.key.toLowerCase() === 'i') jump('images');
-    });
-
-    function filter() {
-        const q = document.getElementById('search').value.toLowerCase();
-        document.querySelectorAll('.card').forEach(card => {
-            card.style.display = card.innerText.toLowerCase().includes(q) ? 'flex' : 'none';
-        });
-    }
-
-    render();
 </script>
 </body>
 </html>
