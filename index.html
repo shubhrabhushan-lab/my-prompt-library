@@ -4,7 +4,7 @@
     <meta name="google-site-verification" content="tX1tSSe8i56Vx9SHUoGRk8qTNFqNOgRhHU4Uga2CBnM" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VaultOS | 800+ Professional Prompts</title>
+    <title>VaultOS | 800+ Categorized Intelligence</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #6366f1; --accent: #10b981; --bg: #0b0f1a; --card: #1f2937; --text: #f3f4f6; }
@@ -26,12 +26,13 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
         
         .card { background: var(--card); border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; height: 100%; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
         
         .card-img { width: 100%; height: 180px; background-size: cover; background-position: center; }
         .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
 
-        .copy-btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: auto; font-weight: 700; }
+        .copy-btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: auto; font-weight: 700; transition: 0.2s; }
+        .copy-btn:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
@@ -43,43 +44,60 @@
         <svg class="logo-svg" viewBox="0 0 100 100"><path d="M20 30 L50 80 L80 30 Z" fill="none" stroke="var(--primary)" stroke-width="8"/></svg>
         <span style="font-weight:800; font-size:1.5rem;">VAULT<span style="color:var(--primary)">OS</span></span>
     </div>
-    <input type="text" id="search" class="search-box" placeholder="Search 800+ unique prompts..." onkeyup="filter()">
+    <input type="text" id="search" class="search-box" placeholder="Search Gaming, YouTube, Coding..." onkeyup="filter()">
 </div>
 
 <div class="container">
-    <h1 style="font-size: 2.5rem; margin: 0 0 10px 0;">Intelligence Library</h1>
-    <p style="color: var(--accent); font-weight: 800; margin-bottom: 40px;">STATUS: 800+ UNIQUE MODULES VERIFIED</p>
+    <h1 style="font-size: 2.5rem; margin: 0 0 10px 0;">800+ Categorized Prompts</h1>
+    <p style="color: var(--accent); font-weight: 800; margin-bottom: 40px;">CODING • YOUTUBE • GAMING • ACADEMIC</p>
     <div class="grid" id="prompt-grid"></div>
 </div>
 
 <script>
     const sound = document.getElementById('clickSound');
     
-    // Generator Components for Unique Prompts
-    const verbs = ["Analyze", "Create", "Design", "Explain", "Optimize", "Summarize", "Draft", "Code", "Review", "Script"];
-    const topics = ["React hooks", "Python scrapers", "Gaming lore", "YouTube viral hooks", "History thesis", "Cyberpunk art", "SEO strategy", "Data science", "Marketing emails", "Physics laws"];
-    const styles = ["for a senior level", "in a cinematic style", "for a viral audience", "using modern frameworks", "with detailed evidence", "for high retention", "using photorealism", "with step-by-step logic"];
-
-    const library = [];
-    const images = [
-        "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500", // Coding
-        "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=500", // YouTube
-        "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500", // Gaming
-        "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500"  // Academic
+    // Detailed Categories and Templates
+    const catData = [
+        { 
+            name: "CODING", 
+            img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500",
+            tasks: ["Optimize the performance of", "Write a secure script for", "Debug the logic in", "Refactor the hooks for", "Analyze the architecture of"],
+            topics: ["a React Dashboard", "a Python Data Scraper", "a Node.js API", "a C++ Game Engine", "a SQL Database Migration"]
+        },
+        { 
+            name: "YOUTUBE", 
+            img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=500",
+            tasks: ["Draft a viral hook for", "Create a high-retention script for", "Design a thumbnail concept for", "Generate SEO tags for", "Write a community post for"],
+            topics: ["a Tech Review video", "a Minecraft Gameplay series", "a Daily Vlog", "a Mystery Documentary", "a Finance Tutorial"]
+        },
+        { 
+            name: "GAMING", 
+            img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500",
+            tasks: ["Design a boss mechanic for", "Write a back-story for", "Create a level layout for", "Develop a weapon system for", "Script a cutscene for"],
+            topics: ["an Open World RPG", "a Cyberpunk Shooter", "a Fantasy Quest", "a Stealth Horror Game", "a Battle Royale Map"]
+        },
+        { 
+            name: "ACADEMIC", 
+            img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500",
+            tasks: ["Write a thesis on", "Summarize the history of", "Analyze the impact of", "Explain the science behind", "Draft an outline for"],
+            topics: ["Renewable Energy", "The French Revolution", "AI in Healthcare", "Quantum Mechanics", "Modern Sociology"]
+        }
     ];
 
+    const library = [];
+
     // GENERATE 800+ UNIQUE PROMPTS
-    for(let i=1; i<=805; i++) {
-        const v = verbs[i % verbs.length];
-        const t = topics[Math.floor(i / 1.5) % topics.length];
-        const s = styles[Math.floor(i / 2) % styles.length];
-        const img = images[i % images.length];
+    for(let i=1; i<=808; i++) {
+        const cat = catData[i % catData.length];
+        const task = cat.tasks[Math.floor(i / 4) % cat.tasks.length];
+        const topic = cat.topics[Math.floor(i / 1.5) % cat.topics.length];
         
         library.push({
             id: i,
-            img: img,
-            title: `Intelligence Module #${i}`,
-            text: `${v} a specialized set of ${t} ${s}. Ensure the output is high-precision and follows the VaultOS ${i} protocol for expert users.`
+            img: cat.img,
+            category: cat.name,
+            title: `${cat.name} Master #${i}`,
+            text: `VaultOS Directive ${i}: ${task} ${topic}. Ensure the output is high-precision and follows professional standards.`
         });
     }
 
@@ -88,7 +106,7 @@
             <div class="card">
                 <div class="card-img" style="background-image: url('${p.img}')"></div>
                 <div class="card-body">
-                    <div style="color:var(--accent); font-size:0.75rem; font-weight:800; margin-bottom:10px;">PRO LEVEL</div>
+                    <div style="color:var(--accent); font-size:0.75rem; font-weight:800; margin-bottom:10px;">${p.category}</div>
                     <h3 style="margin:0 0 10px 0; font-size:1.1rem;">${p.title}</h3>
                     <p id="p${p.id}" style="color:#9ca3af; font-size:0.85rem; line-height:1.5;">${p.text}</p>
                     <button class="copy-btn" onclick="copyAction('p${p.id}')">COPY PROMPT</button>
@@ -99,13 +117,14 @@
 
     function filter() {
         const q = document.getElementById('search').value.toLowerCase();
-        render(library.filter(p => p.text.toLowerCase().includes(q) || p.title.toLowerCase().includes(q)));
+        render(library.filter(p => p.text.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.title.toLowerCase().includes(q)));
     }
 
     function copyAction(id) {
         sound.currentTime = 0;
         sound.play();
-        navigator.clipboard.writeText(document.getElementById(id).innerText);
+        const text = document.getElementById(id).innerText;
+        navigator.clipboard.writeText(text);
         event.target.innerText = "✓ COPIED";
         setTimeout(() => { event.target.innerText = "COPY PROMPT"; }, 2000);
     }
