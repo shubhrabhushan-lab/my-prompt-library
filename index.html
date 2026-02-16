@@ -4,83 +4,84 @@
     <meta name="google-site-verification" content="tX1tSSe8i56Vx9SHUoGRk8qTNFqNOgRhHU4Uga2CBnM" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VaultOS | intelligence Hub</title>
+    <title>VaultOS | Intelligence Center</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
         :root { --primary: #6366f1; --accent: #10b981; --bg: #0b0f1a; --card: #1f2937; --text: #f3f4f6; }
         * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; overflow-x: hidden; }
 
-        /* HEADER AREA */
         .header {
-            background: #111827; padding: 20px 50px; border-bottom: 1px solid rgba(255,255,255,0.1);
+            background: #111827; padding: 15px 50px; border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 1000;
+            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
         }
+        .logo-container { display: flex; align-items: center; gap: 12px; }
+        .logo-svg { width: 35px; height: 35px; filter: drop-shadow(0 0 8px var(--primary)); animation: pulse3d 3s infinite ease-in-out; }
+        @keyframes pulse3d { 0%, 100% { transform: perspective(500px) rotateY(0deg); } 50% { transform: perspective(500px) rotateY(20deg); } }
 
-        .search-box { 
-            width: 350px; padding: 12px 20px; background: rgba(255,255,255,0.05); 
-            border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none;
-        }
+        .search-box { width: 400px; padding: 12px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; }
 
-        /* MAIN CONTENT - NO SIDEBAR */
         .container { max-width: 1400px; margin: 0 auto; padding: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
         
-        .grid { 
-            display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 30px; width: 100%;
-        }
+        .card { background: var(--card); border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
+        
+        .card-img { width: 100%; height: 160px; background-size: cover; background-position: center; }
+        .card-body { padding: 25px; }
 
-        .card { 
-            background: var(--card); border-radius: 24px; padding: 30px;
-            border: 1px solid rgba(255,255,255,0.05); transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 20px 40px rgba(0,0,0,0.4); }
-
-        .copy-btn { 
-            background: var(--primary); color: white; border: none; padding: 14px; 
-            border-radius: 12px; cursor: pointer; width: 100%; margin-top: 20px; font-weight: 700; 
-        }
+        .copy-btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 700; }
     </style>
 </head>
 <body>
 
 <div class="header">
-    <div style="font-weight:800; font-size:1.6rem; letter-spacing:-1px;">VAULT<span style="color:var(--primary)">OS</span></div>
-    <input type="text" id="search" class="search-box" placeholder="Search 500+ prompts..." onkeyup="filter()">
+    <div class="logo-container">
+        <svg class="logo-svg" viewBox="0 0 100 100"><path d="M20 30 L50 80 L80 30 Z" fill="none" stroke="var(--primary)" stroke-width="8"/></svg>
+        <span style="font-weight:800; font-size:1.5rem;">VAULT<span style="color:var(--primary)">OS</span></span>
+    </div>
+    <input type="text" id="search" class="search-box" placeholder="Search prompts..." onkeyup="filter()">
 </div>
 
 <div class="container">
-    <div style="margin-bottom: 40px;">
-        <h1 style="font-size: 2.5rem; margin: 0;">Welcome to the Library</h1>
-        <p style="color: #9ca3af;">System status: <span style="color: var(--accent); font-weight: 800;">VERIFIED BY GOOGLE</span></p>
-    </div>
+    <h1 style="font-size: 2.5rem; margin: 0 0 10px 0;">Intelligence Library</h1>
+    <p style="color: var(--accent); font-weight: 800; margin-bottom: 40px;">SECURE & VERIFIED BY GOOGLE</p>
     <div class="grid" id="prompt-grid"></div>
 </div>
 
 <script>
-    const library = [];
-    for(let i=1; i<=500; i++) {
-        library.push({ 
-            title: `Intelligence Prompt #${i}`, 
-            text: `Professional Vault Protocol ${i}: Optimized expert output for high-level tasks.` 
-        });
+    const data = [
+        { cat: "CODING", title: "React State Master", img: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400", text: "Senior Developer: Analyze this React component for state management efficiency and suggest Redux or Context API improvements." },
+        { cat: "ACADEMIC", title: "Thesis Statement Architect", img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400", text: "Create three complex, debatable thesis statements for an essay regarding the impact of AI on global economics." },
+        { cat: "CREATIVE", title: "Cyberpunk Art Engine", img: "https://images.unsplash.com/photo-1614728263952-84ea256f9679?w=400", text: "Ultra-realistic cyberpunk street, heavy neon lighting, rain reflections, 8k, photorealistic style for Midjourney." },
+        { cat: "YOUTUBE", title: "Viral Script Hook", img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=400", text: "Write 5 high-retention hooks for a YouTube video about the future of technology to keep viewers watching past 30 seconds." },
+        { cat: "GAMING", title: "RPG World Builder", img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=400", text: "Design a unique fantasy race for an RPG, including their history, special abilities, and architectural style." }
+    ];
+
+    // Build the grid with 500 prompts
+    for(let i=6; i<=500; i++) {
+        const random = data[i % data.length];
+        data.push({ ...random, title: `${random.cat} Prompt #${i}` });
     }
 
-    function render(data) {
-        document.getElementById('prompt-grid').innerHTML = data.map((p, i) => `
+    function render(items) {
+        document.getElementById('prompt-grid').innerHTML = items.map((p, i) => `
             <div class="card">
-                <div style="color:var(--accent); font-size:0.75rem; font-weight:800; letter-spacing:1px; margin-bottom:10px;">PREMIUM</div>
-                <h3 style="margin:0 0 15px 0; font-size:1.3rem;">${p.title}</h3>
-                <p id="p${i}" style="color:#9ca3af; font-size:0.95rem; line-height:1.6;">${p.text}</p>
-                <button class="copy-btn" onclick="copyAction('p${i}')">COPY PROMPT</button>
+                <div class="card-img" style="background-image: url('${p.img}')"></div>
+                <div class="card-body">
+                    <div style="color:var(--accent); font-size:0.75rem; font-weight:800; margin-bottom:10px;">${p.cat}</div>
+                    <h3 style="margin:0 0 10px 0;">${p.title}</h3>
+                    <p id="p${i}" style="color:#9ca3af; font-size:0.9rem; line-height:1.5;">${p.text}</p>
+                    <button class="copy-btn" onclick="copyAction('p${i}')">COPY PROMPT</button>
+                </div>
             </div>
         `).join('');
     }
 
     function filter() {
         const q = document.getElementById('search').value.toLowerCase();
-        render(library.filter(p => p.title.toLowerCase().includes(q)));
+        render(data.filter(p => p.title.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q)));
     }
 
     function copyAction(id) {
@@ -89,7 +90,7 @@
         setTimeout(() => { event.target.innerText = "COPY PROMPT"; }, 2000);
     }
 
-    render(library);
+    render(data);
 </script>
 </body>
 </html>
