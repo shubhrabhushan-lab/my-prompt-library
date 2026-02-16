@@ -11,44 +11,56 @@
             --primary: #6366f1; --accent: #10b981; --bg: #0b0f1a; 
             --sidebar: #111827; --card: #1f2937; --text: #f3f4f6; --text-dim: #9ca3af;
         }
+        * { box-sizing: border-box; }
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); 
-            margin: 0; display: flex; height: 100vh; overflow: hidden;
+            margin: 0; display: flex; height: 100vh; width: 100vw; overflow: hidden;
         }
 
-        /* --- 3D LOGO --- */
+        /* --- FIXED SIDEBAR FIX --- */
+        .sidebar {
+            width: 280px; min-width: 280px; background: var(--sidebar); 
+            border-right: 1px solid rgba(255,255,255,0.1);
+            display: flex; flex-direction: column; padding: 30px 20px;
+            height: 100vh; z-index: 10;
+        }
+
         .logo-container { display: flex; align-items: center; gap: 15px; margin-bottom: 50px; }
         .logo-svg { width: 42px; height: 42px; filter: drop-shadow(0 0 10px var(--primary)); animation: pulse3d 3s infinite ease-in-out; }
         @keyframes pulse3d {
-            0% { transform: perspective(500px) rotateY(0deg); }
+            0%, 100% { transform: perspective(500px) rotateY(0deg); }
             50% { transform: perspective(500px) rotateY(20deg); }
-            100% { transform: perspective(500px) rotateY(0deg); }
         }
 
-        .sidebar { width: 280px; background: var(--sidebar); border-right: 1px solid rgba(255,255,255,0.1); display: flex; flex-direction: column; padding: 30px 20px; }
-        .nav-item { padding: 14px 18px; margin: 8px 0; border-radius: 12px; cursor: pointer; transition: 0.3s; font-weight: 600; color: var(--text-dim); display: flex; align-items: center; gap: 12px; }
+        .nav-item { 
+            padding: 14px 18px; margin: 8px 0; border-radius: 12px; cursor: pointer; 
+            transition: 0.3s; font-weight: 600; color: var(--text-dim); display: flex; align-items: center; gap: 12px; 
+        }
         .nav-item.active { background: var(--primary); color: white; box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3); }
 
-        .main { flex: 1; overflow-y: auto; background: radial-gradient(circle at top right, #1e1b4b, #0b0f1a); scroll-behavior: smooth; }
+        /* --- MAIN CONTENT AREA --- */
+        .main { 
+            flex-grow: 1; height: 100vh; overflow-y: auto; 
+            background: radial-gradient(circle at top right, #1e1b4b, #0b0f1a); 
+            scroll-behavior: smooth; position: relative;
+        }
         
-        /* --- SEARCH HUD --- */
-        .header-hud { padding: 40px 50px; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; background: rgba(11, 15, 26, 0.8); backdrop-filter: blur(15px); z-index: 100; }
-        .search-container { position: relative; width: 400px; }
-        .search-bar { width: 100%; padding: 12px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; transition: 0.3s; }
-        .search-bar:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(99, 102, 241, 0.3); }
-        .shortcut-hint { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); font-size: 0.7rem; color: var(--text-dim); background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; }
+        .header-hud { 
+            padding: 40px 50px; border-bottom: 1px solid rgba(255,255,255,0.05); 
+            display: flex; justify-content: space-between; align-items: center; 
+            position: sticky; top: 0; background: rgba(11, 15, 26, 0.9); backdrop-filter: blur(15px); z-index: 5; 
+        }
+
+        .search-bar { width: 350px; padding: 12px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; }
 
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; padding: 40px 50px; }
         .card { background: var(--card); border-radius: 24px; border: 1px solid rgba(255,255,255,0.05); transition: 0.4s; overflow: hidden; }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); }
         .card-image { width: 100%; height: 160px; background-size: cover; background-position: center; }
         .card-content { padding: 25px; }
         .copy-btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: 15px; font-weight: 700; transition: 0.2s; }
     </style>
 </head>
 <body>
-
-<audio id="navSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
 
 <div class="sidebar">
     <div class="logo-container">
@@ -57,34 +69,19 @@
     </div>
     <div class="nav-item active">🏠 Dashboard</div>
     <div class="nav-item">💻 Coding Lab</div>
+    <div class="nav-item">📚 Homework</div>
     <div class="nav-item">🎨 AI Images</div>
 </div>
 
 <div class="main">
     <div class="header-hud">
-        <div><h1 style="margin:0; font-size:1.8rem;">Intelligence Hub</h1></div>
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-bar" placeholder="Search prompts..." onkeyup="filterPrompts()">
-            <span class="shortcut-hint">Press [S]</span>
-        </div>
+        <h1 style="margin:0; font-size:1.8rem;">Intelligence Hub</h1>
+        <input type="text" id="searchInput" class="search-bar" placeholder="Search prompts..." onkeyup="filterPrompts()">
     </div>
     <div class="grid" id="prompt-grid"></div>
 </div>
 
 <script>
-    const sound = document.getElementById('navSound');
-    function uiClick() { sound.currentTime = 0; sound.play(); }
-
-    // --- KEYBOARD SHORTCUTS ---
-    window.addEventListener('keydown', (e) => {
-        if (e.key === 's' || e.key === 'S') {
-            if (document.activeElement.tagName !== 'INPUT') {
-                e.preventDefault();
-                document.getElementById('searchInput').focus();
-            }
-        }
-    });
-
     const cats = [
         { name: "Coding", img: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=400" },
         { name: "Homework", img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=400" },
@@ -118,7 +115,6 @@
     }
 
     function copyAction(id) {
-        uiClick();
         navigator.clipboard.writeText(document.getElementById(id).innerText);
         event.target.innerText = "✓ COPIED";
         setTimeout(() => { event.target.innerText = "COPY PROMPT"; }, 2000);
