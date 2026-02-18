@@ -130,6 +130,45 @@
     }
 
     render(library);
+    // --- Copy from here ---
+const myBlogId = "1322658788142668213";
+const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBloggerWithApp`;
+
+function syncBloggerWithApp(data) {
+    const entries = data.feed.entry;
+    if (entries) {
+        entries.forEach(entry => {
+            const newPrompt = {
+                title: entry.title.$t,
+                category: "LATEST",
+                text: entry.content.$t.replace(/<[^>]*>?/gm, '') 
+            };
+            library.push(newPrompt);
+        });
+        render(library);
+// --- Copy from here ---
+const myBlogId = "1322658788142668213";
+const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBloggerWithApp`;
+
+function syncBloggerWithApp(data) {
+    const entries = data.feed.entry;
+    if (entries) {
+        entries.forEach(entry => {
+            const newPrompt = {
+                title: entry.title.$t,
+                category: "LATEST",
+                text: entry.content.$t.replace(/<[^>]*>?/gm, '') 
+            };
+            library.push(newPrompt);
+        });
+        render(library);
+    }
+}
+
+const scriptTag = document.createElement('script');
+scriptTag.src = feedUrl;
+document.body.appendChild(scriptTag);
+// --- End Copy ---
 </script>
 </body>
 </html>
