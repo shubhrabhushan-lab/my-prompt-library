@@ -1,70 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Prompt Library</title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
-        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        h1 { text-align: center; color: #2c3e50; }
-        .prompt-card { border: 1px solid #e1e4e8; padding: 20px; margin-bottom: 20px; border-radius: 10px; transition: 0.3s; }
-        .prompt-card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
-        .prompt-card h3 { margin-top: 0; color: #007bff; }
-        .btn { display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
-        #loading { text-align: center; font-style: italic; color: #888; }
-    </style>
-</head>
-<body>
+// 1. First, show your original 800 prompts immediately
+render(library); 
 
-    <div class="container">
-        <h1>🚀 My AI Prompt Library</h1>
-        <p style="text-align: center;">Latest prompts synced directly from my blog.</p>
-        <hr>
-        
-        <div id="prompts-container">
-            <div id="loading">Connecting to Blogger feed...</div>
-        </div>
-    </div>
+// 2. Setup the Blogger connection
+const myBlogId = "1322658788142668213";
+const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBlogger`;
 
-    <script>
-        // STEP 1: PUT YOUR BLOG ID NUMBER BELOW
-        const blogId = 1322658788142668213; 
+function syncBlogger(data) {
+    const entries = data.feed.entry;
+    if (entries) {
+        entries.forEach(entry => {
+            const newPrompt = {
+                title: entry.title.$t,
+                category: "LATEST",
+                text: entry.content.$t.replace(/<[^>]*>?/gm, '') 
+            };
+            // This ADDS the blog post to your existing 800 prompts
+            library.push(newPrompt);
+        });
+        // 3. Re-render the library so the new blog posts appear at the end
+        render(library);
+    }
+}
 
-        // STEP 2: The logic to fetch your posts
-        const feedUrl = `https://www.blogger.com/feeds/${blogId}/posts/default?alt=json-in-script&callback=loadPrompts`;
-
-        function loadPrompts(data) {
-            const entries = data.feed.entry;
-            let html = "";
-            
-            if (entries) {
-                entries.forEach(entry => {
-                    const title = entry.title.$t;
-                    const link = entry.link.find(l => l.rel === 'alternate').href;
-                    // Cleans HTML tags and shortens text
-                    const snippet = entry.content.$t.replace(/<[^>]*>?/gm, '').substring(0, 180);
-
-                    html += `
-                        <div class="prompt-card">
-                            <h3>${title}</h3>
-                            <p>${snippet}...</p>
-                            <a href="${link}" target="_blank" class="btn">Copy Full Prompt →</a>
-                        </div>
-                    `;
-                });
-            } else {
-                html = "<p style='text-align:center;'>No prompts found. Add a post to your Blogger site first!</p>";
-            }
-            
-            document.getElementById("prompts-container").innerHTML = html;
-        }
-
-        // STEP 3: Create the script tag to run the code
-        const script = document.createElement('script');
-        script.src = feedUrl;
-        document.body.appendChild(script);
-    </script>
-
-</body>
-</html>
+// 4. Trigger the fetch
+const scriptTag = document.createElement('script');
+scriptTag.src = feedUrl;
+document.body.appendChild(scriptTag);
