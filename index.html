@@ -1,93 +1,36 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VaultOS - AI Prompt Library</title>
-    <style>
-        :root { --primary: #00ff88; --accent: #00d4ff; --bg: #0a0b10; }
-        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 20px; }
-        .header { text-align: center; padding: 40px 0; }
-        .logo-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 20px; }
-        .search-box { width: 100%; max-width: 600px; padding: 12px 20px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; }
-        .prompt-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,255,136,0.1); padding: 20px; border-radius: 15px; }
-        .prompt-card h3 { color: var(--primary); margin-top: 0; }
-        .copy-btn { background: var(--primary); color: black; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-    </style>
-</head>
-<body>
+// 1. KEEP YOUR ORIGINAL LIBRARY HERE
+// Do not delete the 800 prompts already in this list!
+const library = [
+    { title: "Prompt 1", category: "CODING", text: "..." },
+    // ... all your other 800 prompts are here ...
+];
 
-    <div class="header">
-        <div class="logo-container">
-            <span style="font-weight:800; font-size:1.5rem;">VAULT<span style="color:var(--primary)">OS</span></span>
-        </div>
-        <input type="text" id="search" class="search-box" placeholder="Search 800+ Prompts..." onkeyup="filter()">
-        <h1>800+ Categorized Prompts</h1>
-        <p style="color:var(--accent)">CODING • YOUTUBE • GAMING • ACADEMIC</p>
-    </div>
+// 2. SHOW THEM IMMEDIATELY
+// This line brings your 800 prompts back to the screen right now
+render(library); 
 
-    <div class="grid" id="prompt-grid"></div>
+// 3. ADD THE BLOGGER SYNC BELOW
+const myBlogId = "1322658788142668213";
+const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBlogger`;
 
-    <script>
-        // 1. YOUR ORIGINAL 800 PROMPTS (The 'library' variable)
-        let library = [
-            { title: "Example Prompt 1", category: "CODING", text: "Original content here..." },
-            // ... (Your 800 prompts are kept here) ...
-        ];
-
-        // 2. THE RENDER FUNCTION (Draws cards on screen)
-        function render(data) {
-            const grid = document.getElementById('prompt-grid');
-            grid.innerHTML = data.map((p, i) => `
-                <div class="prompt-card">
-                    <h3>${p.title}</h3>
-                    <p style="font-size:0.8rem; opacity:0.6;">${p.category}</p>
-                    <p id="t-${i}" style="display:none;">${p.text}</p>
-                    <button class="copy-btn" onclick="copyAction('t-${i}')">COPY PROMPT</button>
-                </div>
-            `).join('');
-        }
-
-        // 3. THE FIX: Render your 800 prompts IMMEDIATELY
+function syncBlogger(data) {
+    const entries = data.feed.entry;
+    if (entries) {
+        entries.forEach(entry => {
+            const newPrompt = {
+                title: entry.title.$t,
+                category: "LATEST",
+                text: entry.content.$t.replace(/<[^>]*>?/gm, '') 
+            };
+            // This adds the blogger post to your 800 prompts
+            library.push(newPrompt);
+        });
+        // This refreshes the screen to show the new ones too
         render(library);
+    }
+}
 
-        // 4. BLOGGER CONNECTION (Adds new posts to the 800)
-        const myBlogId = "1322658788142668213";
-        const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBlogger`;
-
-        function syncBlogger(data) {
-            const entries = data.feed.entry;
-            if (entries) {
-                entries.forEach(entry => {
-                    const newPrompt = {
-                        title: entry.title.$t,
-                        category: "LATEST",
-                        text: entry.content.$t.replace(/<[^>]*>?/gm, '') 
-                    };
-                    library.unshift(newPrompt); // Puts Blogger posts at the VERY TOP
-                });
-                render(library); // Refresh to show them
-            }
-        }
-
-        // 5. HELPER FUNCTIONS
-        function filter() {
-            const q = document.getElementById('search').value.toLowerCase();
-            const filtered = library.filter(p => p.title.toLowerCase().includes(q) || p.text.toLowerCase().includes(q));
-            render(filtered);
-        }
-
-        function copyAction(id) {
-            const text = document.getElementById(id).innerText;
-            navigator.clipboard.writeText(text);
-            alert("Prompt Copied!");
-        }
-
-        // Trigger Blogger sync
-        const scriptTag = document.createElement('script');
-        scriptTag.src = feedUrl;
-        document.body.appendChild(scriptTag);
-    </script>
-</body>
-</html>
+// 4. TRIGGER THE CONNECTION
+const scriptTag = document.createElement('script');
+scriptTag.src = feedUrl;
+document.body.appendChild(scriptTag);
