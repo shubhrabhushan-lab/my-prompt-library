@@ -1,195 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="google-site-verification" content="tX1tSSe8i56Vx9SHUoGRk8qTNFqNOgRhHU4Uga2CBnM" />
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VaultOS | 800+ Categorized Intelligence</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>My Prompt Library</title>
     <style>
-        :root { --primary: #6366f1; --accent: #10b981; --bg: #0b0f1a; --card: #1f2937; --text: #f3f4f6; }
-        * { box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); margin: 0; padding: 0; overflow-x: hidden; }
-
-        .header {
-            background: #111827; padding: 15px 50px; border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex; justify-content: space-between; align-items: center;
-            position: sticky; top: 0; z-index: 1000; backdrop-filter: blur(10px);
-        }
-        .logo-container { display: flex; align-items: center; gap: 12px; }
-        .logo-svg { width: 35px; height: 35px; filter: drop-shadow(0 0 8px var(--primary)); animation: pulse3d 3s infinite ease-in-out; }
-        @keyframes pulse3d { 0%, 100% { transform: perspective(500px) rotateY(0deg); } 50% { transform: perspective(500px) rotateY(20deg); } }
-
-        .search-box { width: 400px; padding: 12px 20px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; outline: none; }
-
-        .container { max-width: 1400px; margin: 0 auto; padding: 40px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 30px; }
-        
-        .card { background: var(--card); border-radius: 24px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); transition: 0.3s; height: 100%; display: flex; flex-direction: column; }
-        .card:hover { transform: translateY(-10px); border-color: var(--primary); box-shadow: 0 15px 30px rgba(0,0,0,0.5); }
-        
-        .card-img { width: 100%; height: 180px; background-size: cover; background-position: center; }
-        .card-body { padding: 25px; flex-grow: 1; display: flex; flex-direction: column; }
-
-        .copy-btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 12px; cursor: pointer; width: 100%; margin-top: auto; font-weight: 700; transition: 0.2s; }
-        .copy-btn:active { transform: scale(0.95); }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; color: #333; }
+        .container { max-width: 800px; margin: auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #2c3e50; }
+        .prompt-card { border: 1px solid #e1e4e8; padding: 20px; margin-bottom: 20px; border-radius: 10px; transition: 0.3s; }
+        .prompt-card:hover { transform: translateY(-5px); box-shadow: 0 6px 12px rgba(0,0,0,0.1); }
+        .prompt-card h3 { margin-top: 0; color: #007bff; }
+        .btn { display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; }
+        #loading { text-align: center; font-style: italic; color: #888; }
     </style>
 </head>
 <body>
 
-<audio id="clickSound" src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"></audio>
-
-<div class="header">
-    <div class="logo-container">
-        <svg class="logo-svg" viewBox="0 0 100 100"><path d="M20 30 L50 80 L80 30 Z" fill="none" stroke="var(--primary)" stroke-width="8"/></svg>
-        <span style="font-weight:800; font-size:1.5rem;">VAULT<span style="color:var(--primary)">OS</span></span>
-    </div>
-    <input type="text" id="search" class="search-box" placeholder="Search Gaming, YouTube, Coding..." onkeyup="filter()">
-</div>
-
-<div class="container">
-    <h1 style="font-size: 2.5rem; margin: 0 0 10px 0;">800+ Categorized Prompts</h1>
-    <p style="color: var(--accent); font-weight: 800; margin-bottom: 40px;">CODING • YOUTUBE • GAMING • ACADEMIC</p>
-    <div class="grid" id="prompt-grid"></div>
-</div>
-
-<script>
-    const sound = document.getElementById('clickSound');
-    
-    // Detailed Categories and Templates
-    const catData = [
-        { 
-            name: "CODING", 
-            img: "https://images.unsplash.com/photo-1542831371-29b0f74f9713?w=500",
-            tasks: ["Optimize the performance of", "Write a secure script for", "Debug the logic in", "Refactor the hooks for", "Analyze the architecture of"],
-            topics: ["a React Dashboard", "a Python Data Scraper", "a Node.js API", "a C++ Game Engine", "a SQL Database Migration"]
-        },
-        { 
-            name: "YOUTUBE", 
-            img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?w=500",
-            tasks: ["Draft a viral hook for", "Create a high-retention script for", "Design a thumbnail concept for", "Generate SEO tags for", "Write a community post for"],
-            topics: ["a Tech Review video", "a Minecraft Gameplay series", "a Daily Vlog", "a Mystery Documentary", "a Finance Tutorial"]
-        },
-        { 
-            name: "GAMING", 
-            img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500",
-            tasks: ["Design a boss mechanic for", "Write a back-story for", "Create a level layout for", "Develop a weapon system for", "Script a cutscene for"],
-            topics: ["an Open World RPG", "a Cyberpunk Shooter", "a Fantasy Quest", "a Stealth Horror Game", "a Battle Royale Map"]
-        },
-        { 
-            name: "ACADEMIC", 
-            img: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?w=500",
-            tasks: ["Write a thesis on", "Summarize the history of", "Analyze the impact of", "Explain the science behind", "Draft an outline for"],
-            topics: ["Renewable Energy", "The French Revolution", "AI in Healthcare", "Quantum Mechanics", "Modern Sociology"]
-        }
-    ];
-
-    const library = [];
-
-    // GENERATE 800+ UNIQUE PROMPTS
-    for(let i=1; i<=808; i++) {
-        const cat = catData[i % catData.length];
-        const task = cat.tasks[Math.floor(i / 4) % cat.tasks.length];
-        const topic = cat.topics[Math.floor(i / 1.5) % cat.topics.length];
+    <div class="container">
+        <h1>🚀 My AI Prompt Library</h1>
+        <p style="text-align: center;">Latest prompts synced directly from my blog.</p>
+        <hr>
         
-        library.push({
-            id: i,
-            img: cat.img,
-            category: cat.name,
-            title: `${cat.name} Master #${i}`,
-            text: `VaultOS Directive ${i}: ${task} ${topic}. Ensure the output is high-precision and follows professional standards.`
-        });
-    }
+        <div id="prompts-container">
+            <div id="loading">Connecting to Blogger feed...</div>
+        </div>
+    </div>
 
-    function render(items) {
-        document.getElementById('prompt-grid').innerHTML = items.map((p) => `
-            <div class="card">
-                <div class="card-img" style="background-image: url('${p.img}')"></div>
-                <div class="card-body">
-                    <div style="color:var(--accent); font-size:0.75rem; font-weight:800; margin-bottom:10px;">${p.category}</div>
-                    <h3 style="margin:0 0 10px 0; font-size:1.1rem;">${p.title}</h3>
-                    <p id="p${p.id}" style="color:#9ca3af; font-size:0.85rem; line-height:1.5;">${p.text}</p>
-                    <button class="copy-btn" onclick="copyAction('p${p.id}')">COPY PROMPT</button>
-                </div>
-            </div>
-        `).join('');
-    }
+    <script>
+        // STEP 1: PUT YOUR BLOG ID NUMBER BELOW
+        const blogId = 1322658788142668213; 
 
-    function filter() {
-        const q = document.getElementById('search').value.toLowerCase();
-        render(library.filter(p => p.text.toLowerCase().includes(q) || p.category.toLowerCase().includes(q) || p.title.toLowerCase().includes(q)));
-    }
+        // STEP 2: The logic to fetch your posts
+        const feedUrl = `https://www.blogger.com/feeds/${blogId}/posts/default?alt=json-in-script&callback=loadPrompts`;
 
-    function copyAction(id) {
-        sound.currentTime = 0;
-        sound.play();
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
-        event.target.innerText = "✓ COPIED";
-        setTimeout(() => { event.target.innerText = "COPY PROMPT"; }, 2000);
-    }
+        function loadPrompts(data) {
+            const entries = data.feed.entry;
+            let html = "";
+            
+            if (entries) {
+                entries.forEach(entry => {
+                    const title = entry.title.$t;
+                    const link = entry.link.find(l => l.rel === 'alternate').href;
+                    // Cleans HTML tags and shortens text
+                    const snippet = entry.content.$t.replace(/<[^>]*>?/gm, '').substring(0, 180);
 
-    render(library);
-    // --- Copy from here ---
-const myBlogId = "1322658788142668213";
-const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBloggerWithApp`;
+                    html += `
+                        <div class="prompt-card">
+                            <h3>${title}</h3>
+                            <p>${snippet}...</p>
+                            <a href="${link}" target="_blank" class="btn">Copy Full Prompt →</a>
+                        </div>
+                    `;
+                });
+            } else {
+                html = "<p style='text-align:center;'>No prompts found. Add a post to your Blogger site first!</p>";
+            }
+            
+            document.getElementById("prompts-container").innerHTML = html;
+        }
 
-function syncBloggerWithApp(data) {
-    const entries = data.feed.entry;
-    if (entries) {
-        entries.forEach(entry => {
-            const newPrompt = {
-                title: entry.title.$t,
-                category: "LATEST",
-                text: entry.content.$t.replace(/<[^>]*>?/gm, '') 
-            };
-            library.push(newPrompt);
-        });
-        render(library);
-// --- Copy from here ---
-const myBlogId = "1322658788142668213";
-const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBloggerWithApp`;
+        // STEP 3: Create the script tag to run the code
+        const script = document.createElement('script');
+        script.src = feedUrl;
+        document.body.appendChild(script);
+    </script>
 
-function syncBloggerWithApp(data) {
-    const entries = data.feed.entry;
-    if (entries) {
-        entries.forEach(entry => {
-            const newPrompt = {
-                title: entry.title.$t,
-                category: "LATEST",
-                text: entry.content.$t.replace(/<[^>]*>?/gm, '') 
-            };
-            library.push(newPrompt);
-        });
-        render(library);
-// 1. First, show your original 800 prompts immediately
-render(library); 
-
-// 2. Setup the Blogger connection
-const myBlogId = "1322658788142668213";
-const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBlogger`;
-
-function syncBlogger(data) {
-    const entries = data.feed.entry;
-    if (entries) {
-        entries.forEach(entry => {
-            const newPrompt = {
-                title: entry.title.$t,
-                category: "LATEST",
-                text: entry.content.$t.replace(/<[^>]*>?/gm, '') 
-            };
-            // This ADDS the blog post to your existing 800 prompts
-            library.push(newPrompt);
-        });
-        // 3. Re-render the library so the new blog posts appear at the end
-        render(library);
-    }
-}
-
-// 4. Trigger the fetch
-const scriptTag = document.createElement('script');
-scriptTag.src = feedUrl;
-document.body.appendChild(scriptTag);
-</script>
 </body>
 </html>
