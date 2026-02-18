@@ -162,13 +162,34 @@ function syncBloggerWithApp(data) {
             library.push(newPrompt);
         });
         render(library);
+// 1. First, show your original 800 prompts immediately
+render(library); 
+
+// 2. Setup the Blogger connection
+const myBlogId = "1322658788142668213";
+const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBlogger`;
+
+function syncBlogger(data) {
+    const entries = data.feed.entry;
+    if (entries) {
+        entries.forEach(entry => {
+            const newPrompt = {
+                title: entry.title.$t,
+                category: "LATEST",
+                text: entry.content.$t.replace(/<[^>]*>?/gm, '') 
+            };
+            // This ADDS the blog post to your existing 800 prompts
+            library.push(newPrompt);
+        });
+        // 3. Re-render the library so the new blog posts appear at the end
+        render(library);
     }
 }
 
+// 4. Trigger the fetch
 const scriptTag = document.createElement('script');
 scriptTag.src = feedUrl;
 document.body.appendChild(scriptTag);
-// --- End Copy ---
 </script>
 </body>
 </html>
