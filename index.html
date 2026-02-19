@@ -10,10 +10,12 @@
         .header { text-align: center; padding: 40px 0; }
         .search-box { width: 100%; max-width: 600px; padding: 12px 20px; border-radius: 25px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none; margin-bottom: 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
-        /* IMAGE FIX: Added card-img styling */
+        
+        /* IMAGE FIX: This class MUST be here for images to show */
         .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,255,136,0.1); border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; }
-        .card-img { height: 160px; background-size: cover; background-position: center; border-bottom: 1px solid rgba(0,255,136,0.1); }
+        .card-img { height: 160px; width: 100%; background-size: cover; background-position: center; display: block !important; }
         .card-body { padding: 20px; }
+        
         .copy-btn { background: var(--primary); color: black; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; }
     </style>
 </head>
@@ -28,6 +30,7 @@
     <div id="prompt-grid" class="grid"></div>
 
     <script>
+    // 1. DATA WITH IMAGE LINKS
     const catData = [
         { name: "CODING", img: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?w=400", tasks: ["Debug this", "Optimize"], topics: ["React Code", "Python"] },
         { name: "YOUTUBE", img: "https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=400", tasks: ["Write a script", "Title ideas"], topics: ["Tech Review", "Gaming"] },
@@ -36,19 +39,21 @@
 
     const library = [];
 
+    // 2. GENERATE 808 PROMPTS
     for(let i=1; i<=808; i++) {
         const cat = catData[i % catData.length];
         const task = cat.tasks[Math.floor(i / 4) % cat.tasks.length];
         const topic = cat.topics[Math.floor(i / 1.5) % cat.topics.length];
         library.push({
             id: i,
-            img: cat.img,
+            img: cat.img, // ATTENTION: This assigns the image
             category: cat.name,
             title: `${cat.name} Master #${i}`,
             text: `VaultOS Directive ${i}: ${task} ${topic}. Ensure high-precision output.`
         });
     }
 
+    // 3. RENDER CARDS (Includes the Image Tag)
     function render(items) {
         const grid = document.getElementById('prompt-grid');
         grid.innerHTML = items.map((p) => `
@@ -56,7 +61,7 @@
                 <div class="card-img" style="background-image: url('${p.img || "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=400"}')"></div>
                 <div class="card-body">
                     <div style="color:var(--accent); font-size:0.75rem; font-weight:800; margin-bottom:10px;">${p.category}</div>
-                    <h3 style="margin:0 0 10px 0;">${p.title}</h3>
+                    <h3 style="margin:0 0 10px 0; font-size:1.1rem;">${p.title}</h3>
                     <p id="p${p.id}" style="color:#9ca3af; font-size:0.85rem; line-height:1.4;">${p.text}</p>
                     <button class="copy-btn" onclick="copyAction('p${p.id}')">COPY PROMPT</button>
                 </div>
@@ -64,6 +69,7 @@
         `).join('');
     }
 
+    // 4. BLOGGER CONNECTION
     const myBlogId = "1322658788142668213"; 
     const feedUrl = `https://www.blogger.com/feeds/${myBlogId}/posts/default?alt=json-in-script&callback=syncBlogger`;
 
@@ -73,7 +79,7 @@
             entries.forEach((entry, index) => {
                 library.unshift({
                     id: "blog-" + index,
-                    img: "https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=400", // Default Blog Image
+                    img: "https://images.unsplash.com/photo-1614741118887-7a4ee193a5fa?w=400",
                     category: "LATEST",
                     title: entry.title.$t,
                     text: entry.content.$t.replace(/<[^>]*>?/gm, '')
@@ -95,6 +101,7 @@
     }
 
     render(library);
+
     const scriptTag = document.createElement('script');
     scriptTag.src = feedUrl;
     document.body.appendChild(scriptTag);
