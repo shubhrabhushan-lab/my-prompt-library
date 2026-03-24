@@ -9,6 +9,20 @@
 <p>Best prompts for coding, debugging, Python and React.</p>
 
 <a href="index.html">⬅ Back to Home</a>
+<script>
+const container = document.getElementById("container");
 
+// filter coding only
+const coding = library.filter(item => item.category === "CODING");
+
+coding.forEach(item => {
+  const div = document.createElement("div");
+
+  div.style.border = "1px solid white";
+  div.style.margin = "10px";
+  div.style.padding = "10px";
+
+  div.innerHTML = `
+    <h3>${item.title}</h3>
 </body>
 </html>
