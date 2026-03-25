@@ -1,4 +1,8 @@
 https://shubhrabhushan-lab.github.io/my-prompt-library/index.html
-https://shubhrabhushan-lab.github.io/my-prompt-library/privacy.html
 https://shubhrabhushan-lab.github.io/my-prompt-library/about.html
 https://shubhrabhushan-lab.github.io/my-prompt-library/contact.html
+https://shubhrabhushan-lab.github.io/my-prompt-library/privacy.html
+https://shubhrabhushan-lab.github.io/my-prompt-library/ai-guide.html
+https://shubhrabhushan-lab.github.io/my-prompt-library/future-of-ai.html
+https://shubhrabhushan-lab.github.io/my-prompt-library/student-prompts.html
+https://shubhrabhushan-lab.github.io/my-prompt-library/coding-prompts.html
