@@ -8,26 +8,70 @@
  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1818314505585188"
      crossorigin="anonymous"></script>
 <style>
-/* --- PREMIUM GLOW EFFECTS --- */
-a[href*=".html"] {
-    background: rgba(255, 255, 255, 0.03) !important;
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(0, 255, 136, 0.3) !important;
-    transition: all 0.4s ease;
+  :root { --primary: #00ff88; --accent: #00d4ff; --bg: #0a0b10; }
+        body { background: var(--bg); color: white; font-family: sans-serif; margin: 0; padding: 20px; }
+        .header { text-align: center; padding: 40px 0; }
+        .search-box { width: 100%; max-width: 600px; padding: 12px 20px; border-radius 25px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.05); color: white; outline: none; margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        
+        /* IMAGE FIX: This class MUST be here for images to show */
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(0,255,136,0.1); border-radius: 15px; overflow: hidden; display: flex; flex-direction: column; }
+        .card-img { height: 160px; width: 100%; background-size: cover; background-position: center; display: block !important; }
+        .card-body { padding: 20px; }
+        
+        .copy-btn { background: var(--primary); color: black; border: none; padding: 10px; border-radius: 5px; cursor: pointer; font-weight: bold; width: 100%; margin-top: 15px; }
+    .glass-nav {
+    margin: 30px auto;
+    max-width: 850px;
+    padding: 12px;
+    background: rgba(255, 255, 255, 0.03); /* Subtle transparency */
+    backdrop-filter: blur(15px); /* Premium blurred glass effect */
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 100px; /* Modern capsule shape */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    position: sticky;
+    top: 20px;
+    z-index: 1000;
+}
+
+.nav-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.nav-item {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 20px;
+    border-radius: 50px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    color: #94a3b8; /* Professional muted grey */
+}
+
+.nav-text {
     font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
 }
-a[href*=".html"]:hover {
-    background: #00ff88 !important;
-    color: #000 !important;
-    box-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+
+/* INTERACTIVE HOVER EFFECTS */
+.nav-item:hover {
+    background: rgba(0, 255, 136, 0.1); /* Subtle VaultOS green glow */
+    color: #00ff88; 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.2);
 }
-.trust-footer {
-    background: rgba(255,255,255,0.02);
-    padding: 30px;
-    border-radius: 15px;
-    margin-top: 50px;
-    border: 1px solid #222;
+
+/* MOBILE OPTIMIZATION */
+@media (max-width: 600px) {
+    .nav-text { display: none; } /* Show only icons on small screens */
+    .glass-nav { max-width: 95%; padding: 10px; }
 }
+    </style>
     </style>
 </head>
 <body>
