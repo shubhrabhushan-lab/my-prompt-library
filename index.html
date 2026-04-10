@@ -248,76 +248,38 @@ function copyPrompt(text, btn) {
                     text: entry.content.$t.replace(/<[^>]*>?/gm, '')
                 });
             });
-            render(library);
-        }
-    }
-
-    function filter() {
-        const q = document.getElementById('search').value.toLowerCase();
-        render(library.filter(p => p.text.toLowerCase().includes(q) || p.title.toLowerCase().includes(q)));
-    }
-
-    function copyAction(id) {
-        const text = document.getElementById(id).innerText;
-        navigator.clipboard.writeText(text);
-        alert("Prompt Copied!");
-    }
-
-    render(library);
-
-    const scriptTag = document.createElement('script');
-    scriptTag.src = feedUrl;
-    document.body.appendChild(scriptTag);
-</script>
-  <div style="margin-top:50px; padding:30px; background:rgba(255,255,255,0.05); border-radius:15px; border:1px solid rgba(0,255,136,0.2); text-align:center;">
-    <h2 style="color:#00ff88;">Expert AI Guides</h2>
-<div style="display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-top: 20px;">
-    <a href="coding-guide.html" style="padding:10px 15px; background:#333; color:#00ff88; text-decoration:none; border-radius:5px;">🚀 LLM Coding & Orchestration</a>
-    <a href="future-of-ai.html" style="padding:10px 15px; background:#333; color:#00ff88; text-decoration:none; border-radius:5px;">🔮 2026 AI Trends & GEO Strategy</a>
-    <a href="student-prompts.html" style="padding:10px 15px; background:#333; color:#00ff88; text-decoration:none; border-radius:5px;">🎓 Academic Success & Research AI</a>
-    <a href="business-marketing.html" style="padding:10px 15px; background:#333; color:#00ff88; text-decoration:none; border-radius:5px;">💼 Enterprise Marketing & AI Agents</a>
-    <a href="creator-guide.html" style="padding:10px 15px; background:#333; color:#00ff88; text-decoration:none; border-radius:5px;">🎨 Multimodal Art & Midjourney v7</a>
-</div>
-    </div>
-</div>
-<section style="padding: 40px; background: #111; color: #fff; border-top: 2px solid #00ff88; margin-top: 50px;">
-    <h2 style="color: #00ff88;">Why VaultOS is the Best AI Prompt Library in 2026</h2>
-    <p>In the era of <strong>Generative Engine Optimization (GEO)</strong>, having access to a high-quality <strong>Prompt Engineering Vault</strong> is a game-changer. Our library isn't just a list; it's a complete <strong>LLM Orchestration</strong> toolkit. Whether you need <strong>ChatGPT marketing prompts</strong> to scale your business or <strong>Midjourney v7 art triggers</strong> for photorealistic visuals, VaultOS delivers precision.</p>
+    <section style="padding: 40px; background: #111; color: #fff; border-top: 2px solid #00ff88; margin-top: 50px; text-align: center;">
+    <h2 style="color:#00ff88;">Why VaultOS is the Best AI Prompt Library in 2026</h2>
+    <p style="max-width: 800px; margin: 0 auto 20px auto; color: #ccc; line-height: 1.6;">
+        In the era of <strong>Generative Engine Optimization (GEO)</strong>, having access to a high-quality Prompt Engineering Vault is a game-changer. Our library isn't just a list; it's a complete LLM Orchestration toolkit. Whether you need ChatGPT marketing prompts or Midjourney v7 triggers, VaultOS delivers precision.
+    </p>
+    <p style="max-width: 800px; margin: 0 auto; color: #ccc; line-height: 1.6;">
+        We specialize in <strong>Enterprise AI workflows</strong> and <strong>Zero-shot reasoning</strong>, ensuring that our Gemini Ultra prompts and Anthropic Claude templates provide the "Golden Ratio" of constraints and creativity. Stay ahead of the competition with automated AI agents and the world's most sophisticated Multimodal content triggers.
+    </p>
     
-    <p>We specialize in <strong>Enterprise AI workflows</strong> and <strong>Zero-shot reasoning</strong>, ensuring that our <strong>Gemini Ultra prompts</strong> and <strong>Anthropic Claude templates</strong> provide the "Golden Ratio" of constraints and creativity. Stay ahead of the competition with <strong>automated AI agents</strong> and the world's most sophisticated <strong>Multimodal content triggers</strong>.</p>
+    <div style="margin-top: 30px; display: flex; justify-content: center; gap: 20px; font-size: 0.9rem;">
+        <a href="privacy.html" style="color: #888; text-decoration: none;">Privacy Policy</a>
+        <a href="contact.html" style="color: #888; text-decoration: none;">Contact Us</a>
+        <span style="color: #444;">|</span>
+        <span style="color: #00ff88;">© 2026 VaultOS Intelligence</span>
+    </div>
 </section>
-<div style="margin-bottom: 20px; display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
-    <a href="index.html" class="footer-link">Home</a>
-    <a href="about.html" class="footer-link">About</a>
-    <a href="contact.html" class="footer-link">Contact</a>
-    <a href="privacy.html" class="footer-link">Privacy Policy</a>
-    <a href="terms.html" class="footer-link">Terms of Service</a>
-</div>
+
 <script>
 function copyPrompt(text, btn) {
-    navigator.clipboard.writeText(text);
-    btn.innerHTML = "✅ Copied to Clipboard!";
-    setTimeout(() => { btn.innerHTML = "Copy Premium Prompt"; }, 2000);
+    navigator.clipboard.writeText(text).then(() => {
+        const originalText = btn.innerHTML;
+        btn.innerHTML = "✅ Copied to Clipboard!";
+        btn.style.background = "#fff";
+        btn.style.color = "#000";
+        setTimeout(() => {
+            btn.innerHTML = originalText;
+            btn.style.background = "#00ff88";
+            btn.style.color = "#000";
+        }, 2000);
+    });
 }
 </script>
-<style>
-    .footer-link {
-        color: #888 !important; /* This sets them all to grey by default */
-        text-decoration: none;
-        font-size: 0.9rem;
-        transition: 0.3s;
-        font-weight: 500;
-    }
 
-    .footer-link:hover {
-        color: #00ff88 !important; /* They all turn Neon Green on hover */
-        text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
-    }
-</style>
-    <p style="color: #444; font-size: 0.8rem; letter-spacing: 1px;">
-        &copy; 2026 VaultOS Prompt Engine | Secured by Instamojo |
-    </p>
-</footer>
 </body>
-</div>
 </html>
