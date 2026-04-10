@@ -93,6 +93,20 @@
     </style>
     </style>
 </head>
+    <script>
+function copyPrompt(text, btn) {
+    navigator.clipboard.writeText(text);
+    const originalText = btn.innerHTML;
+    btn.innerHTML = "✅ Copied!";
+    btn.style.backgroundColor = "#00ff88";
+    btn.style.color = "#000";
+    setTimeout(() => {
+        btn.innerHTML = originalText;
+        btn.style.backgroundColor = "";
+        btn.style.color = "";
+    }, 2000);
+}
+</script>
 <body>
     <div style="position: fixed; bottom: 20px; right: 20px; background: rgba(0, 255, 136, 0.1); border: 1px solid #00ff88; padding: 10px 15px; border-radius: 50px; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(5px); z-index: 9999;">
     <span style="color: #00ff88; font-size: 14px; font-weight: bold;">● VaultOS Verified Pro</span>
