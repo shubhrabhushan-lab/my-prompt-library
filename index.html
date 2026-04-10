@@ -60,6 +60,7 @@
                 <a href="educational-prompts.html" class="nav-item"><span>🎓</span><span class="nav-text">Education</span></a>
                 <a href="tech-prompts.html" class="nav-item"><span>💻</span><span class="nav-text">Tech</span></a>
                 <a href="marketing-prompts.html" class="nav-item"><span>📈</span><span class="nav-text">Marketing</span></a>
+                <button onclick="toggleTheme()" style="background:none; border:1px solid #00ff88; color:#00ff88; cursor:pointer; border-radius:50px; padding:5px 12px; font-size: 0.8rem; margin-left: 10px; font-weight: bold;">🌓 Mode</button>
             </div>
         </nav>
     </div>
@@ -77,7 +78,17 @@
 
         <div id="prompt-grid" class="grid" style="margin-top: 40px;"></div>
     </main>
-
+<section style="max-width:800px; margin:40px auto; padding:20px; border-top:1px solid #333; text-align: left;">
+    <h3 style="color:#00ff88;">Frequently Asked Questions</h3>
+    <details style="margin-bottom:15px; cursor:pointer; background:rgba(255,255,255,0.02); padding:10px; border-radius:10px;">
+        <summary style="font-weight:bold; color:#fff;">Are these prompts updated for 2026 AI models?</summary>
+        <p style="color:#888; padding-top:10px;">Yes, all 808 directives are optimized for GPT-5, Gemini Ultra, and Claude 4 reasoning architectures.</p>
+    </details>
+    <details style="margin-bottom:15px; cursor:pointer; background:rgba(255,255,255,0.02); padding:10px; border-radius:10px;">
+        <summary style="font-weight:bold; color:#fff;">How do I use the VaultOS library?</summary>
+        <p style="color:#888; padding-top:10px;">Simply search for a topic, click 'Copy Prompt', and paste it into your preferred LLM for high-fidelity results.</p>
+    </details>
+</section>
     <footer style="margin-top: 80px; padding: 40px; background: #111; border-top: 2px solid #00ff88; text-align: center;">
         <h2 style="color: #00ff88;">Why VaultOS is the Best AI Prompt Library in 2026</h2>
         <p style="color: #ccc; max-width: 800px; margin: 0 auto;">In the era of <strong>Generative Engine Optimization (GEO)</strong>, our library provides the complete <strong>LLM Orchestration</strong> toolkit. From <strong>Gemini Ultra</strong> to <strong>Claude</strong>, stay ahead with our automated AI agents.</p>
@@ -139,5 +150,9 @@
 
         render(library);
     </script>
+    function toggleTheme() {
+    const body = document.body;
+    body.style.filter = (body.style.filter === 'invert(1) hue-rotate(180deg)') ? 'none' : 'invert(1) hue-rotate(180deg)';
+}
 </body>
 </html>
