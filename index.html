@@ -127,6 +127,8 @@ ai reasoning prompts "Unlock the VaultOS Premium AI Prompt Library. Over 800+ pr
         .footer-link:hover { color: #00ff88 !important; }
         @media (max-width: 600px) { .nav-text { display: none; } }
     </style>
+    <link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0b57d0">
 </head>
 <body>
     <div style="position: fixed; bottom: 20px; right: 20px; background: rgba(0, 255, 136, 0.1); border: 1px solid #00ff88; padding: 10px 15px; border-radius: 50px; display: flex; align-items: center; gap: 8px; backdrop-filter: blur(5px); z-index: 9999;">
@@ -275,5 +277,18 @@ ai reasoning prompts "Unlock the VaultOS Premium AI Prompt Library. Over 800+ pr
     // 4. INITIALIZE SITE
     render(library);
     </script>
+    <script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", function () {
+        navigator.serviceWorker.register("./sw.js")
+            .then(function () {
+                console.log("Service Worker Registered");
+            })
+            .catch(function (err) {
+                console.log("Service Worker Failed:", err);
+            });
+    });
+}
+</script>
 </body>
 </html>
